@@ -1,3 +1,12 @@
+*/out.md
+*/*.sh
+*/*.bash
+*/*.php
+*/*.js
+*/*.java
+index.html
+.bash
+.idea
 # Logs
 logs
 *.log
