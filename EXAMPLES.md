@@ -1,5 +1,5 @@
 
-## EXAMPLES - [edytuj](https://github.com/codereview-pl/www/edit/main/EXAMPLES.md)
+## EXAMPLES [<span style='font-size:20px;'>&#x270D;</span>](https://github.com/codereview-pl/www/edit/main/EXAMPLES.md)
 Based on plainedit
 
 Merge Request

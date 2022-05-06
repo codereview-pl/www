@@ -1,5 +1,5 @@
 
-## DOCS - [edytuj](https://github.com/codereview-pl/www/edit/main/DOCS.md)
+## DOCS [<span style='font-size:20px;'>&#x270D;</span>](https://github.com/codereview-pl/www/edit/main/DOCS.md)
 
 Jak pracować z dokumentacją?
 

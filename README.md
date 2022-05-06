@@ -1,7 +1,7 @@
 
 ![logo.codereview.pl](https://logo.codereview.pl/1/cover.png)
 
-# codereview.pl - [edytuj](https://github.com/codereview-pl/www/edit/main/MENU.md) 
+# codereview.pl [<span style='font-size:20px;'>&#x270D;</span>](https://github.com/codereview-pl/www/edit/main/MENU.md) 
 
 + [Strona informacyjna: www.codereview.pl](https://www.codereview.pl/)
 + [Dokumentacja - docs.codereview.pl](https://docs.codereview.pl/)
@@ -12,14 +12,14 @@
 
 
 
-## START - [edytuj](https://github.com/codereview-pl/www/edit/main/START.md)
+## START [<span style='font-size:20px;'>&#x270D;</span>](https://github.com/codereview-pl/www/edit/main/START.md)
 
 W budowie jest aplikacja do tworzenia zadań
 
 
 
 
-## EXAMPLES - [edytuj](https://github.com/codereview-pl/www/edit/main/EXAMPLES.md)
+## EXAMPLES [<span style='font-size:20px;'>&#x270D;</span>](https://github.com/codereview-pl/www/edit/main/EXAMPLES.md)
 Based on plainedit
 
 Merge Request
@@ -30,7 +30,7 @@ Merge Request
 
 
 
-## DOCS - [edytuj](https://github.com/codereview-pl/www/edit/main/DOCS.md)
+## DOCS [<span style='font-size:20px;'>&#x270D;</span>](https://github.com/codereview-pl/www/edit/main/DOCS.md)
 
 Jak pracować z dokumentacją?
 
@@ -44,7 +44,7 @@ combine, publish, open browser
 
 
 
-## TODO - [edytuj](https://github.com/codereview-pl/www/edit/main/TODO.md)
+## TODO [<span style='font-size:20px;'>&#x270D;</span>](https://github.com/codereview-pl/www/edit/main/TODO.md)
 
 + publikacja jako odrębny projekt z zadaniami
 + przykłady dla:
