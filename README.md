@@ -1,7 +1,7 @@
 
 ![logo.codereview.pl](https://logo.codereview.pl/1/cover.png)
 
-# codereview.pl [<span style='font-size:20px;'>&#x270D;</span>](https://github.com/codereview-pl/www/edit/main/MENU.md) 
+# [codereview.pl](https://www.codereview.pl/) [<span style='font-size:20px;'>&#x270D;</span>](https://github.com/codereview-pl/www/edit/main/MENU.md) 
 
 + [Strona informacyjna: www.codereview.pl](https://www.codereview.pl/)
 + [Dokumentacja - docs.codereview.pl](https://docs.codereview.pl/)
