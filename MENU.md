@@ -1,6 +1,6 @@
 ![logo.codereview.pl](https://logo.codereview.pl/1/cover.png)
 
-# codereview.pl
+# codereview.pl - [edytuj](https://github.com/codereview-pl/www/edit/main/MENU.md) 
 
 + [Strona informacyjna: www.codereview.pl](https://www.codereview.pl/)
 + [Dokumentacja - docs.codereview.pl](https://docs.codereview.pl/)
@@ -9,9 +9,3 @@
 
 + [LICENSE](LICENSE)
 
-
----
-
-> [here You can maintain the content for your website in Markdown files](https://github.com/codereview-pl/examples/edit/main/MENU.md)
-
----

@@ -1,5 +1,5 @@
 
-## DOCS
+## DOCS - [edytuj](https://github.com/codereview-pl/www/edit/main/DOCS.md)
 
 Jak pracować z dokumentacją?
 
@@ -11,10 +11,3 @@ combine, publish, open browser
 ```
 
 
-
-
----
-
-> [here You can maintain the content for your website in Markdown files](https://github.com/codereview-pl/examples/edit/main/DOCS.md)
-
----

@@ -1,7 +1,7 @@
 
 ![logo.codereview.pl](https://logo.codereview.pl/1/cover.png)
 
-# codereview.pl
+# codereview.pl - [edytuj](https://github.com/codereview-pl/www/edit/main/MENU.md) 
 
 + [Strona informacyjna: www.codereview.pl](https://www.codereview.pl/)
 + [Dokumentacja - docs.codereview.pl](https://docs.codereview.pl/)
@@ -11,26 +11,15 @@
 + [LICENSE](LICENSE)
 
 
----
 
-> [here You can maintain the content for your website in Markdown files](https://github.com/codereview-pl/examples/edit/main/MENU.md)
-
----
-
-## START
+## START - [edytuj](https://github.com/codereview-pl/www/edit/main/START.md)
 
 W budowie jest aplikacja do tworzenia zadań
 
 
 
 
----
-
-> [here You can maintain the content for your website in Markdown files](https://github.com/codereview-pl/examples/edit/main/START.md)
-
----
-
-## EXAMPLES
+## EXAMPLES - [edytuj](https://github.com/codereview-pl/www/edit/main/EXAMPLES.md)
 Based on plainedit
 
 Merge Request
@@ -41,13 +30,7 @@ Merge Request
 
 
 
----
-
-> [here You can maintain the content for your website in Markdown files](https://github.com/codereview-pl/examples/edit/main/EXAMPLES.md)
-
----
-
-## DOCS
+## DOCS - [edytuj](https://github.com/codereview-pl/www/edit/main/DOCS.md)
 
 Jak pracować z dokumentacją?
 
@@ -61,13 +44,7 @@ combine, publish, open browser
 
 
 
----
-
-> [here You can maintain the content for your website in Markdown files](https://github.com/codereview-pl/examples/edit/main/DOCS.md)
-
----
-
-## TODO
+## TODO - [edytuj](https://github.com/codereview-pl/www/edit/main/TODO.md)
 
 + publikacja jako odrębny projekt z zadaniami
 + przykłady dla:
@@ -77,11 +54,6 @@ combine, publish, open browser
   + integracji z JIRA
 
 
----
-
-> [here You can maintain the content for your website in Markdown files](https://github.com/codereview-pl/examples/edit/main/TODO.md)
-
----
 
 --
 + [edit](https://github.com/codereview-pl/www/edit/main/README.md)

@@ -1,5 +1,5 @@
 
-## EXAMPLES
+## EXAMPLES - [edytuj](https://github.com/codereview-pl/www/edit/main/EXAMPLES.md)
 Based on plainedit
 
 Merge Request
@@ -8,10 +8,3 @@ Merge Request
 ./codereview "1/in.md" "1/out.md" "1/auth.md"
 ```
 
-
-
----
-
-> [here You can maintain the content for your website in Markdown files](https://github.com/codereview-pl/examples/edit/main/EXAMPLES.md)
-
----
