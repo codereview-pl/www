@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/includes/bootstrap.php';
+require_once __DIR__ . '/../includes/bootstrap.php';
 
 $page_title = __('sessions_title');
 $page_desc = __('sessions_desc');
@@ -110,6 +110,33 @@ if ($action === 'send' && $room_id && isset($sessions[$room_id])) {
             'message' => htmlspecialchars($msg),
             'time' => time()
         ];
+        
+        // Simple Simulated LLM Response logic
+        // If message contains a question mark or is the first message, AI might respond
+        $lowercase_msg = mb_strtolower($msg);
+        $ai_response = '';
+        
+        if (strpos($lowercase_msg, '?') !== false || count($messages[$room_id]) === 1) {
+            $responses = [
+                "Cześć! Jestem Twoim asystentem AI. W czym mogę Ci dzisiaj pomóc w kodowaniu?",
+                "To ciekawe pytanie. Czy próbowałeś już sprawdzić dokumentację lub debugować ten fragment?",
+                "Wygląda na to, że pracujecie nad czymś interesującym. Pamiętajcie o dobrych praktykach!",
+                "Jeśli potrzebujesz pomocy z konkretnym błędem, wklej tutaj fragment kodu.",
+                "Zawsze warto sprawdzić logi serwera w takich sytuacjach."
+            ];
+            $ai_response = $responses[array_rand($responses)];
+        } elseif (strpos($lowercase_msg, 'pomoc') !== false || strpos($lowercase_msg, 'help') !== false) {
+            $ai_response = "Jestem tutaj, aby pomóc! Możesz mnie zapytać o składnię, architekturę lub optymalizację kodu.";
+        }
+        
+        if ($ai_response) {
+            $messages[$room_id][] = [
+                'sender' => 'AI Assistant',
+                'message' => $ai_response,
+                'time' => time() + 1 // slight delay in timestamp
+            ];
+        }
+
         save_messages($messages_file, $messages);
     }
     header('Location: /sesje?room=' . $room_id);
@@ -288,7 +315,7 @@ $room_messages = $current_session ? ($messages[$room_id] ?? []) : [];
                             <?php if (count($s['participants']) < $s['max_participants']): ?>
                             <form method="post" action="/sesje?action=join&room=<?= $s['id'] ?>">
                                 <input type="text" name="name" class="form-input" placeholder="<?= __('sessions_your_name') ?>" required style="margin-top: 16px;">
-                                <button type="submit" class="btn btn-primary btn-join"><?= __('sessions_join') }}</button>
+                                <button type="submit" class="btn btn-primary btn-join"><?= __('sessions_join') ?></button>
                             </form>
                             <?php else: ?>
                             <button class="btn btn-ghost btn-join" disabled><?= __('sessions_full') ?></button>
@@ -317,7 +344,7 @@ $room_messages = $current_session ? ($messages[$room_id] ?? []) : [];
                                 <span>⏱️ <?= __('sessions_duration') ?>: <?= $session_duration ?> min</span>
                                 <span>👥 <?= __('sessions_max_participants') ?>: <?= $max_participants ?></span>
                             </div>
-                            <button type="submit" name="create_session" class="btn btn-primary"><?= __('sessions_start') }}</button>
+                            <button type="submit" name="create_session" class="btn btn-primary"><?= __('sessions_start') ?></button>
                         </form>
                     </div>
                 <?php endif; ?>

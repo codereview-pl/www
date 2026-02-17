@@ -105,7 +105,7 @@ sort($unique_techs);
 
     <div class="section-header fade-in"><div class="section-label"><?= __('market_flow_label') ?></div><h2 class="section-title"><?= __('market_flow_title') ?></h2></div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:64px;" class="fade-in">
-        <?php foreach([['1','🔍 Szukaj mentora','Filtruj po technologii, stawce, języku. Profile z GitHub OAuth.'],['2','💳 Zarezerwuj sesję','Stripe escrow — pieniądze nie trafiają od razu do mentora.'],['3','💻 Sesja live','Terminal, Docker, VS Code, chat + voice.'],['4','⭐ Oceń i zapłać','Ocena → auto-release po 24h. Faktura VAT.']] as $s): ?>
+        <?php foreach(__('market_flow_steps') as $s): ?>
         <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;position:relative;">
             <div style="position:absolute;top:-12px;left:20px;width:28px;height:28px;background:var(--accent);color:var(--bg-deep);font-weight:800;font-size:.85rem;border-radius:8px;display:flex;align-items:center;justify-content:center;"><?=$s[0]?></div>
             <h3 style="font-size:.95rem;font-weight:700;margin:8px 0 10px;"><?=$s[1]?></h3>
@@ -127,7 +127,7 @@ sort($unique_techs);
 <section><div class="container">
     <div class="section-header fade-in"><div class="section-label"><?= __('market_complaints_label') ?></div><h2 class="section-title"><?= __('market_complaints_title') ?></h2></div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" class="fade-in">
-        <?php foreach([['📩','Zgłoszenie','Uczeń zgłasza w ciągu 24h od sesji.'],['🔍','Weryfikacja','Automatyczna analiza logów i nagrań.'],['💸','Rozwiązanie','Zwrot 100% lub mediacja 50/50 w 24h.'],['🚫','Konsekwencje','Ban mentora po 2 uznanych reklamacjach.']] as $r): ?>
+        <?php foreach(__('market_complaints_steps') as $r): ?>
         <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
             <div style="font-size:1.8rem;margin-bottom:12px;"><?=$r[0]?></div>
             <h3 style="font-size:.95rem;font-weight:700;margin-bottom:8px;"><?=$r[1]?></h3>

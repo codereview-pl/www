@@ -21,6 +21,7 @@ RewriteRule ^ - [L]
 
 # ─── Clean URL routing → pages/*.php ─────
 RewriteRule ^marketplace/?$      pages/marketplace.php [L]
+RewriteRule ^sesje/?$            pages/sesje.php [L]
 RewriteRule ^cennik/?$           pages/cennik.php [L]
 RewriteRule ^dokumentacja/?$     pages/dokumentacja.php [L]
 RewriteRule ^api/?$              pages/api.php [L]
@@ -28,6 +29,7 @@ RewriteRule ^kontakt/?$          pages/kontakt.php [L]
 RewriteRule ^porownanie/?$       pages/porownanie.php [L]
 RewriteRule ^regulamin/?$        pages/regulamin.php [L]
 RewriteRule ^prywatnosc/?$       pages/prywatnosc.php [L]
+RewriteRule ^dashboard/?$        admin/index.php [L]
 
 # ─── Deny direct access to includes ─────
 RewriteRule ^includes/ - [F,L]

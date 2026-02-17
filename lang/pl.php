@@ -44,6 +44,11 @@ return [
     'market_be_mentor_desc' => 'GitHub OAuth. Profil gotowy w 2 minuty.',
     'market_be_mentor_btn' => 'Zostań mentorem',
     'market_find_mentor_btn' => 'Znajdź mentora →',
+    'market_hour' => 'h',
+
+    'mentor_1_bio' => 'Fullstack Dev, Ekspert Docker, entuzjasta PHP.',
+    'mentor_2_bio' => 'Specjalistka Frontend, ekspertka React i Tailwind.',
+    'mentor_3_bio' => 'Backend dev, miłośnik Go i Pythona.',
     
     // Comparison Page
     'comp_title' => 'Porównanie<br><span class="gradient-text">Narzędzi</span>',
@@ -68,7 +73,16 @@ return [
     'api_title' => 'API<br><span class="gradient-text">Reference</span>',
     'api_desc' => 'Stripe Connect, GitHub OAuth, Hub WebSocket i webhook verification.',
     'api_tech_stack' => 'Tech Stack',
-    'api_events' => 'Events',
+    'api_events' => 'Zdarzenia',
+    'api_direction' => 'Kierunek',
+    'api_event_desc' => 'Opis',
+    'api_event_join' => 'Dołącz do sesji',
+    'api_event_joined' => 'Student dołączył',
+    'api_event_term_out' => 'Output terminala',
+    'api_event_term_in' => 'Komenda na terminal',
+    'api_event_screen' => 'Screenshot (base64)',
+    'api_event_msg' => 'Wiadomość',
+    'api_event_slide' => 'Sync slajdów',
     
     // Pricing Page
     'price_title' => 'Cennik i<br><span class="gradient-text">Licencjonowanie</span>',
@@ -134,6 +148,19 @@ return [
     'sessions_ai_assistant' => 'Asystent AI',
     'sessions_send_message' => 'Wyślij wiadomość...',
     'sessions_placeholder_topic' => 'Np. Debugowanie, Code Review, Pytanie o Python...',
+
+    'market_flow_steps' => [
+        ['1', '🔍 Szukaj mentora', 'Filtruj po technologii, stawce, języku. Profile z GitHub OAuth.'],
+        ['2', '💳 Zarezerwuj sesję', 'Stripe escrow — pieniądze nie trafiają od razu do mentora.'],
+        ['3', '💻 Sesja live', 'Terminal, Docker, VS Code, chat + voice.'],
+        ['4', '⭐ Oceń i zapłać', 'Ocena → auto-release po 24h. Faktura VAT.']
+    ],
+    'market_complaints_steps' => [
+        ['📩', 'Zgłoszenie', 'Uczeń zgłasza w ciągu 24h od sesji.'],
+        ['🔍', 'Weryfikacja', 'Automatyczna analiza logów i nagrań.'],
+        ['💸', 'Rozwiązanie', 'Zwrot 100% lub mediacja 50/50 w 24h.'],
+        ['🚫', 'Konsekwencje', 'Ban mentora po 2 uznanych reklamacjach.']
+    ],
 
     'features' => [
         ['📺','Live Streaming','Podgląd okna studenta w real-time z konfigurowalnym FPS (1–10 kl/s).'],

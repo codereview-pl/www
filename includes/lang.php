@@ -38,9 +38,13 @@ class Language {
         }
     }
 
-    public static function get(string $key, array $replace = []): string {
+    public static function get(string $key, array $replace = []) {
         $value = self::$translations[$key] ?? $key;
         
+        if (is_array($value)) {
+            return $value;
+        }
+
         foreach ($replace as $k => $v) {
             $value = str_replace(':' . $k, $v, $value);
         }
@@ -60,6 +64,6 @@ class Language {
 /**
  * Helper function for translations
  */
-function __ (string $key, array $replace = []): string {
+function __ (string $key, array $replace = []) {
     return Language::get($key, $replace);
 }

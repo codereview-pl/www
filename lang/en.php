@@ -44,6 +44,11 @@ return [
     'market_be_mentor_desc' => 'GitHub OAuth. Profile ready in 2 minutes.',
     'market_be_mentor_btn' => 'Become a mentor',
     'market_find_mentor_btn' => 'Find a mentor →',
+    'market_hour' => 'h',
+
+    'mentor_1_bio' => 'Fullstack Dev, Docker Expert, PHP enthusiast.',
+    'mentor_2_bio' => 'Frontend specialist, React & Tailwind expert.',
+    'mentor_3_bio' => 'Backend dev, Go & Python lover.',
     
     // Comparison Page
     'comp_title' => 'Tool<br><span class="gradient-text">Comparison</span>',
@@ -69,6 +74,15 @@ return [
     'api_desc' => 'Stripe Connect, GitHub OAuth, Hub WebSocket and webhook verification.',
     'api_tech_stack' => 'Tech Stack',
     'api_events' => 'Events',
+    'api_direction' => 'Direction',
+    'api_event_desc' => 'Description',
+    'api_event_join' => 'Join session',
+    'api_event_joined' => 'Student joined',
+    'api_event_term_out' => 'Terminal output',
+    'api_event_term_in' => 'Terminal command',
+    'api_event_screen' => 'Screenshot (base64)',
+    'api_event_msg' => 'Message',
+    'api_event_slide' => 'Slides sync',
     
     // Pricing Page
     'price_title' => 'Pricing and<br><span class="gradient-text">Licensing</span>',
@@ -134,6 +148,19 @@ return [
     'sessions_ai_assistant' => 'AI Assistant',
     'sessions_send_message' => 'Send message...',
     'sessions_placeholder_topic' => 'e.g. Debugging, Code Review, Python Question...',
+
+    'market_flow_steps' => [
+        ['1', '🔍 Find a mentor', 'Filter by technology, rate, language. Profiles with GitHub OAuth.'],
+        ['2', '💳 Book a session', 'Stripe escrow — money doesn\'t go directly to the mentor.'],
+        ['3', '💻 Live session', 'Terminal, Docker, VS Code, chat + voice.'],
+        ['4', '⭐ Rate and pay', 'Rating → auto-release after 24h. VAT invoice.']
+    ],
+    'market_complaints_steps' => [
+        ['📩', 'Submission', 'Student reports within 24h of the session.'],
+        ['🔍', 'Verification', 'Automatic analysis of logs and recordings.'],
+        ['💸', 'Resolution', '100% refund or 50/50 mediation within 24h.'],
+        ['🚫', 'Consequences', 'Mentor ban after 2 accepted complaints.']
+    ],
 
     'features' => [
         ['📺','Live Streaming','Real-time student window preview with configurable FPS (1–10 fps).'],

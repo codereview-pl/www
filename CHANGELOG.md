@@ -1,3 +1,24 @@
+## [1.0.10] - 2026-02-17
+
+### Summary
+
+feat(docs): deep code analysis engine with 5 supporting modules
+
+### Core
+
+- update includes/lang.php
+
+### Docs
+
+- docs: update TODO.md
+
+### Other
+
+- update .htaccess
+- update lang/en.php
+- update lang/pl.php
+
+
 ## [1.0.9] - 2026-02-17
 
 ### Summary

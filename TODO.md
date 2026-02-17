@@ -22,7 +22,9 @@
 - [x] Admin panel for system monitoring
 - [x] Contact form with email notifications and logging
 - [ ] Search functionality
-- [ ] Multi-language support
+- [x] Multi-language support (i18n)
+- [x] Free sessions board with LLM integration (/sesje)
+- [x] Mobile responsive design (hamburger menu)
 - [x] Tool comparison page (/porownanie)
 
 ## Medium Priority
@@ -34,6 +36,7 @@
 - [ ] Add API documentation (OpenAPI/Swagger)
 - [x] Set up error logging and monitoring (Logger + Admin View)
 - [x] Fix Docker port conflicts (Mailhog 1026)
+- [x] Modular diagnostic scripts and health checks (scripts/)
 
 ### Content
 - [ ] Complete marketplace page
