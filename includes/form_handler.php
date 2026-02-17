@@ -5,6 +5,7 @@
  */
 
 require_once __DIR__ . '/logger.php';
+require_once __DIR__ . '/rate_limiter.php';
 
 class FormHandler {
     private array $errors = [];
@@ -13,6 +14,16 @@ class FormHandler {
     public function handleContactForm(): array {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             return ['success' => false, 'message' => 'Invalid request method'];
+        }
+        
+        // Rate limiting
+        if (RateLimiter::isLimited('contact_form', 60)) {
+            $waitTime = RateLimiter::getWaitTime('contact_form', 60);
+            Logger::warning('Rate limit exceeded', [
+                'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+                'wait_time' => $waitTime
+            ]);
+            return ['success' => false, 'message' => "Zbyt wiele prób. Spróbuj ponownie za {$waitTime}s."];
         }
         
         // CSRF protection (simple implementation)
@@ -55,7 +66,7 @@ class FormHandler {
         // Process the form
         return $this->processContactForm();
     }
-    
+
     private function validateName(): void {
         if (empty($this->data['name'])) {
             $this->errors['name'] = 'Imię i nazwisko jest wymagane';

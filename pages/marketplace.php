@@ -2,13 +2,55 @@
 $page_title = 'Marketplace korepetycji programistycznych';
 $page_desc  = 'Peer-to-peer marketplace mentoringu z escrow, fakturami VAT i Stripe Connect.';
 require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../includes/mentor.php';
+
+$mentors = Mentor::getAll();
 ?>
 <section class="page-hero"><div class="hero-glow"></div><div class="container">
     <div class="breadcrumbs"><a href="/">Start</a><span class="sep">/</span><span class="current">Marketplace</span></div>
     <h1>Marketplace<br><span class="gradient-text">korepetycji</span></h1>
     <p>Peer-to-peer mentoring z escrow, fakturami VAT i automatycznymi reklamacjami. Pełny compliance DSA/GPSR/Omnibus.</p>
 </div></section>
+
 <section><div class="container">
+    <div class="section-header fade-in">
+        <div class="section-label">// Mentorzy</div>
+        <h2 class="section-title">Znajdź swojego mentora</h2>
+        <p class="section-desc">Najlepsi specjaliści gotowi do pomocy na żywo.</p>
+    </div>
+
+    <div class="mentors-grid fade-in" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-bottom:64px;">
+        <?php foreach ($mentors as $m): ?>
+        <div class="mentor-card" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:all .3s ease;">
+            <div style="display:flex;gap:16px;margin-bottom:16px;">
+                <img src="<?= $m['avatar_url'] ?>" alt="<?= $m['name'] ?>" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);">
+                <div>
+                    <h3 style="font-size:1.1rem;font-weight:700;margin:0;"><?= $m['name'] ?></h3>
+                    <div style="display:flex;align-items:center;gap:4px;margin-top:4px;">
+                        <span style="color:#fbbf24;">★</span>
+                        <span style="font-size:.85rem;color:var(--text-dim);"><?= $m['rating'] ?></span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size:.9rem;color:var(--text-dim);margin-bottom:16px;line-height:1.5;min-height:3em;"><?= $m['bio'] ?></p>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
+                <?php 
+                $specs = is_string($m['specialties'] ?? '') ? explode(',', $m['specialties']) : ($m['specialties'] ?? []);
+                foreach ($specs as $s): ?>
+                <span class="badge" style="background:var(--bg-elevated);color:var(--accent);padding:4px 10px;border-radius:6px;font-size:.75rem;font-weight:600;"><?= trim($s) ?></span>
+                <?php endforeach; ?>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--border);">
+                <div>
+                    <span style="font-size:1.2rem;font-weight:800;color:var(--text);"><?= $m['price_pln'] ?> zł</span>
+                    <span style="font-size:.8rem;color:var(--text-dim);">/ h</span>
+                </div>
+                <a href="#" class="btn btn-primary btn-sm">Rezerwuj</a>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+
     <div class="section-header fade-in"><div class="section-label">// Flow transakcji</div><h2 class="section-title">Jak działa marketplace?</h2></div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:64px;" class="fade-in">
         <?php foreach([['1','🔍 Szukaj mentora','Filtruj po technologii, stawce, języku. Profile z GitHub OAuth.'],['2','💳 Zarezerwuj sesję','Stripe escrow — pieniądze nie trafiają od razu do mentora.'],['3','💻 Sesja live','Terminal, Docker, VS Code, chat + voice.'],['4','⭐ Oceń i zapłać','Ocena → auto-release po 24h. Faktura VAT.']] as $s): ?>

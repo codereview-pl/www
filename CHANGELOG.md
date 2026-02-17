@@ -1,3 +1,50 @@
+## [1.0.6] - 2026-02-17
+
+### Summary
+
+feat(docs): deep code analysis engine with 5 supporting modules
+
+### Docs
+
+- docs: update README
+- docs: update TODO.md
+- docs: update README
+
+### Other
+
+- update .env.example
+- update .gitignore
+- update .htaccess
+- update admin/index.php
+- update assets/css/style.css
+- update includes/config.php
+- update includes/form_handler.php
+- update includes/mentor.php
+- update includes/rate_limiter.php
+- update logs/.gitkeep
+- ... and 3 more
+
+
+## [1.0.5] - 2026-02-17
+
+### Added
+- feat: Centralized logging system (`includes/logger.php`) with rotation and structured context.
+- feat: Form handler (`includes/form_handler.php`) with CSRF protection and server-side validation.
+- feat: Admin dashboard (`admin/index.php`) and log viewer (`admin/view_logs.php`).
+- feat: Tool comparison page (`pages/porownanie.php`) comparing CodeReview.pl with 7 other tools.
+- feat: CLI log viewer (`logs/view.php`).
+
+### Fixed
+- fix: Docker port conflict for Mailhog SMTP (moved to 1026).
+- fix: Directory permissions for `logs/` folder in Docker environment.
+- fix: Secured `logs/` and `admin/` directories using `.htaccess`.
+
+### Improved
+- docs: Updated `README.md` with new project structure and monitoring instructions.
+- docs: Updated `TODO.md` to reflect completed security and feature tasks.
+- config: Expanded `.env` and `.env.example` with full port and hostname configuration.
+- ui: Added styles for comparison tables and form error states in `style.css`.
+
 ## [1.0.4] - 2026-02-17
 
 ### Summary

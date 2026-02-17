@@ -25,6 +25,7 @@ RewriteRule ^cennik/?$           pages/cennik.php [L]
 RewriteRule ^dokumentacja/?$     pages/dokumentacja.php [L]
 RewriteRule ^api/?$              pages/api.php [L]
 RewriteRule ^kontakt/?$          pages/kontakt.php [L]
+RewriteRule ^porownanie/?$       pages/porownanie.php [L]
 RewriteRule ^regulamin/?$        pages/regulamin.php [L]
 RewriteRule ^prywatnosc/?$       pages/prywatnosc.php [L]
 

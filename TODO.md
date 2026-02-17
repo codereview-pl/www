@@ -3,11 +3,12 @@
 ## High Priority
 
 ### Security
-- [ ] Implement CSRF protection for forms
-- [ ] Add input validation and sanitization
-- [ ] Set up security headers (CSP, HSTS, etc.)
+- [x] Implement CSRF protection for forms
+- [x] Add input validation and sanitization
+- [x] Set up security headers (CSP, HSTS, etc.)
 - [ ] Implement rate limiting for API endpoints
-- [ ] Add login attempt monitoring
+- [x] Add login attempt monitoring (via Logger)
+- [x] Secure sensitive directories (.htaccess in logs/ and admin/)
 
 ### Performance
 - [ ] Implement caching strategy (Redis/Memcached)
@@ -18,10 +19,11 @@
 
 ### Features
 - [ ] User authentication system
-- [ ] Admin panel for content management
-- [ ] Contact form with email notifications
+- [x] Admin panel for system monitoring
+- [x] Contact form with email notifications and logging
 - [ ] Search functionality
 - [ ] Multi-language support
+- [x] Tool comparison page (/porownanie)
 
 ## Medium Priority
 
@@ -30,7 +32,8 @@
 - [ ] Add CI/CD pipeline
 - [ ] Implement code quality checks (PHPStan, PHPCS)
 - [ ] Add API documentation (OpenAPI/Swagger)
-- [ ] Set up error logging and monitoring
+- [x] Set up error logging and monitoring (Logger + Admin View)
+- [x] Fix Docker port conflicts (Mailhog 1026)
 
 ### Content
 - [ ] Complete marketplace page
@@ -66,8 +69,8 @@
 
 ### Code Quality
 - [ ] Refactor legacy code
-- [ ] Implement proper error handling
-- [ ] Add comprehensive logging
+- [x] Implement proper error handling (Logger integration)
+- [x] Add comprehensive logging (includes/logger.php)
 - [ ] Standardize coding style
 - [ ] Remove deprecated functions
 

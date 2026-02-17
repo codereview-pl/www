@@ -49,6 +49,7 @@ function get_nav_items(): array {
     return [
         ['url' => '/',            'label' => 'Strona główna'],
         ['url' => '/#how-it-works', 'label' => 'Jak to działa'],
+        ['url' => '/porownanie',  'label' => 'Porównanie'],
         ['url' => '/marketplace', 'label' => 'Marketplace'],
         ['url' => '/cennik',      'label' => 'Cennik'],
         ['url' => '/dokumentacja','label' => 'Docs'],

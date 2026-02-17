@@ -8,18 +8,26 @@ Strona PHP zoptymalizowana pod **Plesk Obsidian** z Docker dev environment.
 httpdocs/                         ← Plesk document root
 ├── index.php                     ← STRONA GŁÓWNA (w katalogu głównym!)
 ├── .htaccess                     ← Clean URLs + security
+├── admin/
+│   ├── index.php                ← Dashboard administratora
+│   └── view_logs.php            ← Przeglądarka logów (chroniona)
 ├── includes/
 │   ├── config.php                ← Konfiguracja (ceny, linki, DB)
+│   ├── logger.php                ← System logowania
+│   ├── form_handler.php         ← Obsługa formularzy (CSRF, walidacja)
 │   ├── header.php                ← Shared header + nav
 │   └── footer.php                ← Shared footer
 ├── pages/
 │   ├── marketplace.php           ← /marketplace
+│   ├── porownanie.php            ← /porownanie (nowość!)
 │   ├── cennik.php                ← /cennik (+ licencjonowanie Premium Hub)
 │   ├── dokumentacja.php          ← /dokumentacja
 │   ├── api.php                   ← /api
-│   ├── kontakt.php               ← /kontakt
+│   ├── kontakt.php               ← /kontakt (z walidacją i logowaniem)
 │   ├── regulamin.php             ← /regulamin (DSA/GPSR/Omnibus)
 │   └── prywatnosc.php            ← /prywatnosc (RODO)
+├── logs/                         ← Logi aplikacji (chronione .htaccess)
+│   └── view.php                 ← CLI log viewer
 ├── assets/
 │   ├── css/style.css
 │   ├── js/main.js
@@ -49,7 +57,23 @@ make up-mysql    # Uruchom z profilem MySQL
 # Strona:     http://localhost:8080
 # SQLite DB:  ./database/codereview.db
 # phpMyAdmin: http://localhost:8081 (tylko z MySQL)
-# Mailhog:    http://localhost:8025
+# Mailhog UI:  http://localhost:8025
+# Mailhog SMTP: localhost:1026
+# Admin Panel: http://localhost:8080/admin/
+```
+
+### Logi i Monitoring
+
+Aplikacja posiada wbudowany system logowania w `includes/logger.php`.
+
+```bash
+# Podgląd logów (CLI)
+./logs/view.php app 50      # Logi aplikacji
+./logs/view.php access 20   # Logi dostępu (Apache-like)
+./logs/view.php error 100   # Błędy i błędy krytyczne
+
+# Podgląd logów (Web - wymaga auth)
+http://localhost:8080/admin/view_logs.php
 ```
 
 ### Makefile commands
@@ -193,7 +217,8 @@ Edytuj `includes/config.php`:
 | db (SQLite) | - | Domyślny | Plik `./database/codereview.db` |
 | db (MySQL 8) | 3306 | `--profile mysql` | MySQL w panelu DB |
 | phpmyadmin | 8081 | `--profile mysql` | phpMyAdmin w Plesk |
-| mail (Mailhog) | 8025 | Domyślny | Plesk Mail |
+| mail (Mailhog UI) | 8025 | Domyślny | Web interface dla maili |
+| mail (SMTP) | 1026 | Domyślny | Port SMTP dla aplikacji |
 
 ### SQLite vs MySQL
 
