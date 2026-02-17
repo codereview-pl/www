@@ -1,3 +1,38 @@
+## [1.0.2] - 2026-02-17
+
+### Summary
+
+feat(docs): deep code analysis engine with 6 supporting modules
+
+### Docs
+
+- docs: update README
+- docs: update TODO.md
+
+### Other
+
+- build: update Makefile
+
+
+## [1.0.2] - 2026-02-17
+
+### Added
+
+- build: add comprehensive Makefile for development and deployment
+- build: Docker development environment with PHP 8.3 + Apache + MySQL
+- build: automated production packaging and deployment helpers
+
+### Improved
+
+- docs: update README with Makefile usage instructions
+- docs: add Docker development workflow documentation
+- docs: enhance Plesk deployment guide
+
+### Fixed
+
+- docs: standardize changelog format
+- docs: improve project structure documentation
+
 ## [1.0.1] - 2026-02-17
 
 ### Summary

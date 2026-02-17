@@ -37,11 +37,39 @@ httpdocs/                         ← Plesk document root
 
 ```bash
 # Uruchom środowisko identyczne z Plesk
+make up
+
+# Alternatywnie:
 docker-compose up -d
 
 # Strona:     http://localhost:8080
 # phpMyAdmin: http://localhost:8081
 # Mailhog:    http://localhost:8025
+```
+
+### Makefile commands
+
+```bash
+# Development
+make up          # Uruchom środowisko Docker
+make down        # Zatrzymaj środowisko
+make logs        # Pokaż logi
+make shell       # Shell w kontenerze web
+make rebuild     # Przebuduj kontenery
+
+# Production
+make build-prod  # Stwórz paczkę produkcyjną
+make deploy-prod # Instrukcje deployu
+make backup-prod # Backup produkcji
+
+# Database
+make db-backup   # Backup bazy deweloperskiej
+make db-restore  # Przywracanie bazy
+make db-reset    # Reset bazy
+
+# Info
+make help        # Pokaż wszystkie komendy
+make urls        # Pokaż URL'e deweloperskie
 ```
 
 ## Deploy na Plesk (produkcja)
@@ -109,7 +137,10 @@ Databases → Add Database:
 docker/                 ← tylko dev
 docker-compose.yml      ← tylko dev
 .dockerignore           ← tylko dev
+Makefile               ← tylko dev
 README.md               ← opcjonalne
+TODO.md                ← opcjonalne
+CHANGELOG.md            ← opcjonalne
 ```
 
 ## Konfiguracja
