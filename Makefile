@@ -19,9 +19,19 @@ start: install up ## Quick start: install and start development environment
 .PHONY: up down rebuild logs shell clean up-mysql
 up: ## Start Docker development environment (SQLite only)
 	docker-compose up -d
+	@sleep 10
+	@echo "Running health check..."
+	@bash ./scripts/healthcheck.sh || true
+	@echo ""
+	@echo "Running deep diagnostic..."
+	@bash ./scripts/diagnostic.sh || true
+	@echo ""
+	$(MAKE) logs
 
 up-mysql: ## Start Docker with MySQL profile
 	docker-compose --profile mysql up -d
+	@sleep 10
+	@bash ./scripts/healthcheck.sh || true
 
 down: ## Stop Docker development environment
 	docker-compose down
@@ -193,6 +203,19 @@ diagnostic: ## Check active ports and connection status
 	@echo ""
 	@echo "Website response:"
 	@curl -s -o /dev/null -w "HTTP Status: %{http_code}, Time: %{time_total}s\n" http://localhost:8080 2>/dev/null || echo "Not responding"
+
+# Diagnostic
+.PHONY: diagnostic
+diagnostic: ## Run deep diagnostic check
+	@bash ./scripts/diagnostic.sh
+
+.PHONY: healthcheck
+healthcheck: ## Run health check with auto-fix
+	@bash ./scripts/healthcheck.sh
+
+.PHONY: fix
+fix: ## Fix common issues (usage: make fix [all|web|network|volumes])
+	@bash ./scripts/fix.sh $(FIX)
 
 # Version and info
 .PHONY: version info
