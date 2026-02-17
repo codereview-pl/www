@@ -11,13 +11,23 @@ help: ## Show this help message
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
+# Quick start
+.PHONY: start
+start: install up ## Quick start: install and start development environment
+
 # Docker development environment
-.PHONY: up down rebuild logs shell clean
-up: ## Start Docker development environment
+.PHONY: up down rebuild logs shell clean up-mysql
+up: ## Start Docker development environment (SQLite only)
 	docker-compose up -d
+
+up-mysql: ## Start Docker with MySQL profile
+	docker-compose --profile mysql up -d
 
 down: ## Stop Docker development environment
 	docker-compose down
+
+down-mysql: ## Stop Docker with MySQL profile
+	docker-compose --profile mysql down
 
 rebuild: ## Rebuild and start Docker containers
 	docker-compose down
@@ -35,8 +45,21 @@ clean: ## Clean Docker containers and volumes
 	docker system prune -f
 
 # Development utilities
-.PHONY: install-dev test-dev lint-dev
-install-dev: ## Install development dependencies
+.PHONY: install-dev test-dev lint-dev install
+install: ## Install project (create .env from .env.example)
+	@if [ ! -f .env ]; then \
+		echo "Creating .env from .env.example..."; \
+		cp .env.example .env; \
+		echo "✓ .env created successfully"; \
+		echo "⚠️  Please review and update .env with your configuration"; \
+	else \
+		echo "✓ .env already exists"; \
+	fi
+	@echo "Installing development dependencies..."
+	@if [ ! -f composer.json ]; then echo "No composer.json found"; exit 1; fi
+	docker-compose exec web composer install
+
+install-dev: ## Install development dependencies only
 	@echo "Installing development tools..."
 	@if [ ! -f composer.json ]; then echo "No composer.json found"; exit 1; fi
 	docker-compose exec web composer install
@@ -61,6 +84,10 @@ build-prod: ## Build production package (exclude Docker files)
 		--exclude='Makefile' \
 		--exclude='.git/' \
 		--exclude='README.md' \
+		--exclude='TODO.md' \
+		--exclude='CHANGELOG.md' \
+		--exclude='.env.example' \
+		--exclude='.env' \
 		./ dist/
 	tar -czf codereview-pl-$(shell date +%Y%m%d).tar.gz -C dist .
 	@echo "Production package created: codereview-pl-$(shell date +%Y%m%d).tar.gz"
@@ -76,20 +103,42 @@ backup-prod: ## Backup current production (requires SSH access)
 	@echo "ssh user@server 'tar -czf /backup/codereview-pl-$(shell date +%Y%m%d).tar.gz /var/www/vhosts/codereview.pl/httpdocs/'"
 
 # Database operations
-.PHONY: db-backup db-restore db-reset
-db-backup: ## Backup development database
-	docker-compose exec db mysqldump -u root -proot_secret codereview > backup-$(shell date +%Y%m%d).sql
-	@echo "Database backed up to backup-$(shell date +%Y%m%d).sql"
+.PHONY: db-backup db-restore db-reset db-init
+db-backup: ## Backup development database (SQLite)
+	docker-compose exec web cp /var/www/vhosts/codereview.pl/httpdocs/database/codereview.db ./backup-$(shell date +%Y%m%d).db
+	@echo "SQLite database backed up to backup-$(shell date +%Y%m%d).db"
 
-db-restore: ## Restore database from backup (usage: make db-restore BACKUP=file.sql)
-	@if [ -z "$(BACKUP)" ]; then echo "Usage: make db-restore BACKUP=backup-file.sql"; exit 1; fi
+db-backup-mysql: ## Backup MySQL database
+	docker-compose exec db mysqldump -u root -proot_secret codereview > backup-mysql-$(shell date +%Y%m%d).sql
+	@echo "MySQL database backed up to backup-mysql-$(shell date +%Y%m%d).sql"
+
+db-restore: ## Restore SQLite database (usage: make db-restore BACKUP=file.db)
+	@if [ -z "$(BACKUP)" ]; then echo "Usage: make db-restore BACKUP=backup-file.db"; exit 1; fi
+	docker-compose exec web cp $(BACKUP) /var/www/vhosts/codereview.pl/httpdocs/database/codereview.db
+	@echo "SQLite database restored from $(BACKUP)"
+
+db-restore-mysql: ## Restore MySQL database (usage: make db-restore-mysql BACKUP=file.sql)
+	@if [ -z "$(BACKUP)" ]; then echo "Usage: make db-restore-mysql BACKUP=backup-file.sql"; exit 1; fi
 	docker-compose exec -T db mysql -u root -proot_secret codereview < $(BACKUP)
 
-db-reset: ## Reset development database
+db-reset: ## Reset SQLite database
+	docker-compose exec web rm -f /var/www/vhosts/codereview.pl/httpdocs/database/codereview.db
+	docker-compose exec web touch /var/www/vhosts/codereview.pl/httpdocs/database/codereview.db
+	@echo "SQLite database reset"
+
+db-reset-mysql: ## Reset MySQL database
 	docker-compose down -v
-	docker-compose up -d db
-	@echo "Database reset. Waiting for initialization..."
+	docker-compose --profile mysql up -d db
+	@echo "MySQL database reset. Waiting for initialization..."
 	sleep 10
+
+db-init: ## Initialize SQLite database with basic schema
+	@echo "Initializing SQLite database..."
+	docker-compose exec web php -r "
+	\$db = new PDO('sqlite:/var/www/vhosts/codereview.pl/httpdocs/database/codereview.db');
+	\$db->exec('CREATE TABLE IF NOT EXISTS migrations (id INTEGER PRIMARY KEY, migration VARCHAR(255), executed_at DATETIME DEFAULT CURRENT_TIMESTAMP)');
+	echo 'SQLite database initialized with migrations table\n';
+	"
 
 # Maintenance
 .PHONY: update-deps check-deps
@@ -104,9 +153,12 @@ check-deps: ## Check for security vulnerabilities
 urls: ## Show development URLs
 	@echo "Development URLs:"
 	@echo "  Website:    http://localhost:8080"
-	@echo "  phpMyAdmin: http://localhost:8081"
-	@echo "  MailHog:    http://localhost:8025"
-	@echo "  Database:   localhost:3306"
+	@echo "  SQLite DB:   ./database/codereview.db"
+	@echo "  MailHog:     http://localhost:8025"
+	@echo ""
+	@echo "MySQL (optional - use --profile mysql):"
+	@echo "  phpMyAdmin:  http://localhost:8081"
+	@echo "  Database:    localhost:3306"
 
 # Version and info
 .PHONY: version info
@@ -117,5 +169,5 @@ info: ## Show project information
 	@echo "Project: CodeReview.pl Website"
 	@echo "Version: $$(make version)"
 	@echo "PHP: $$(docker-compose exec web php -v | head -1 | cut -d' ' -f2)"
-	@echo "MySQL: $$(docker-compose exec db mysql -V | cut -d' ' -f3)"
-	@echo "Apache: $$(docker-compose exec web apache2 -v | cut -d' ' -f3 | cut -d'(' -f1)"
+	@echo "Database: SQLite (default) - ./database/codereview.db"
+	@echo "MySQL: Available with --profile mysql"

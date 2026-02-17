@@ -36,36 +36,53 @@ httpdocs/                         ← Plesk document root
 ## Quick Start (Docker — lokalne dev)
 
 ```bash
-# Uruchom środowisko identyczne z Plesk
-make up
+# Szybki start (SQLite + instalacja)
+make start
 
-# Alternatywnie:
-docker-compose up -d
+# Lub krok po kroku:
+make install     # Tworzy .env z .env.example
+make up          # Uruchom środowisko Docker (SQLite)
+
+# Z MySQL (opcjonalnie):
+make up-mysql    # Uruchom z profilem MySQL
 
 # Strona:     http://localhost:8080
-# phpMyAdmin: http://localhost:8081
+# SQLite DB:  ./database/codereview.db
+# phpMyAdmin: http://localhost:8081 (tylko z MySQL)
 # Mailhog:    http://localhost:8025
 ```
 
 ### Makefile commands
 
 ```bash
+# Quick start
+make start       # Instalacja + uruchomienie środowiska (SQLite)
+
 # Development
-make up          # Uruchom środowisko Docker
+make install     # Tworzy .env z .env.example + instaluje zależności
+make up          # Uruchom środowisko Docker (SQLite)
+make up-mysql    # Uruchom z MySQL (opcjonalne)
 make down        # Zatrzymaj środowisko
+make down-mysql  # Zatrzymaj z MySQL
 make logs        # Pokaż logi
 make shell       # Shell w kontenerze web
 make rebuild     # Przebuduj kontenery
+
+# Database (SQLite)
+make db-backup   # Backup bazy SQLite
+make db-restore  # Przywracanie bazy SQLite
+make db-reset    # Reset bazy SQLite
+make db-init     # Inicjalizacja SQLite
+
+# Database (MySQL - opcjonalnie)
+make db-backup-mysql   # Backup MySQL
+make db-restore-mysql  # Przywracanie MySQL
+make db-reset-mysql    # Reset MySQL
 
 # Production
 make build-prod  # Stwórz paczkę produkcyjną
 make deploy-prod # Instrukcje deployu
 make backup-prod # Backup produkcji
-
-# Database
-make db-backup   # Backup bazy deweloperskiej
-make db-restore  # Przywracanie bazy
-make db-reset    # Reset bazy
 
 # Info
 make help        # Pokaż wszystkie komendy
@@ -138,6 +155,8 @@ docker/                 ← tylko dev
 docker-compose.yml      ← tylko dev
 .dockerignore           ← tylko dev
 Makefile               ← tylko dev
+.env.example           ← tylko dev
+.env                   ← tylko dev (zawiera sekrety!)
 README.md               ← opcjonalne
 TODO.md                ← opcjonalne
 CHANGELOG.md            ← opcjonalne
@@ -145,19 +164,50 @@ CHANGELOG.md            ← opcjonalne
 
 ## Konfiguracja
 
+### Plik .env
+
+Kopiuj `.env.example` do `.env` i dostosuj ustawienia:
+
+```bash
+make install  # Automatycznie tworzy .env z .env.example
+```
+
+Lub ręcznie:
+```bash
+cp .env.example .env
+# Edytuj .env z Twoją konfiguracją
+```
+
+### Konfiguracja PHP
+
 Edytuj `includes/config.php`:
 - `SITE_*` — linki, email
 - `PRICE_*` — ceny marketplace i Premium Hub
-- `DB_*` — baza danych (lub env vars)
+- `DB_*` — baza danych (lub użyj env vars z .env)
 
 ## Docker services
 
-| Serwis | Port | Odpowiednik Plesk |
-|--------|------|-------------------|
-| web (Apache+PHP 8.3) | 8080 | Apache + PHP-FPM |
-| db (MySQL 8) | 3306 | MySQL w panelu DB |
-| phpmyadmin | 8081 | phpMyAdmin w Plesk |
-| mail (Mailhog) | 8025 | Plesk Mail |
+| Serwis | Port | Opcja | Opis |
+|--------|------|-------|------|
+| web (Apache+PHP 8.3) | 8080 | Domyślny | Apache + PHP-FPM |
+| db (SQLite) | - | Domyślny | Plik `./database/codereview.db` |
+| db (MySQL 8) | 3306 | `--profile mysql` | MySQL w panelu DB |
+| phpmyadmin | 8081 | `--profile mysql` | phpMyAdmin w Plesk |
+| mail (Mailhog) | 8025 | Domyślny | Plesk Mail |
+
+### SQLite vs MySQL
+
+**SQLite (domyślnie):**
+- Brak potrzeby konfiguracji bazy danych
+- Plik bazy w `./database/codereview.db`
+- Szybszy start development
+- Idealny na początek
+
+**MySQL (opcjonalnie):**
+- `make up-mysql` lub `docker-compose --profile mysql up -d`
+- Pełna funkcjonalność SQL
+- phpMyAdmin dostępny na porcie 8081
+- Lepszy dla większych projektów
 
 ## Licencja
 

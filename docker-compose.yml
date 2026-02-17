@@ -27,19 +27,15 @@ services:
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/vhosts/codereview.pl/httpdocs
       - APP_ENV=development
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=codereview
-      - DB_USERNAME=codereview
-      - DB_PASSWORD=codereview_secret
-    depends_on:
-      db:
-        condition: service_healthy
+      - DB_DRIVER=sqlite
+      - DB_DATABASE=/var/www/vhosts/codereview.pl/httpdocs/database/codereview.db
+      - DB_USERNAME=null
+      - DB_PASSWORD=null
     networks:
       - codereview-net
     restart: unless-stopped
 
-  # ─── MySQL 8 (Plesk default) ────────────────
+  # ─── MySQL 8 (Optional - comment out to use SQLite only) ────────────────
   db:
     image: mysql:8.0
     container_name: codereview-db
@@ -61,8 +57,10 @@ services:
     networks:
       - codereview-net
     restart: unless-stopped
+    profiles:
+      - mysql  # Only start with --profile mysql
 
-  # ─── phpMyAdmin (like Plesk's DB panel) ─────
+  # ─── phpMyAdmin (Optional - requires MySQL) ─────
   phpmyadmin:
     image: phpmyadmin:5
     container_name: codereview-pma
@@ -78,6 +76,8 @@ services:
     networks:
       - codereview-net
     restart: unless-stopped
+    profiles:
+      - mysql  # Only start with --profile mysql
 
   # ─── Mailhog (like Plesk's mail) ────────────
   mail:

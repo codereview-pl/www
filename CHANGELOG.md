@@ -1,3 +1,28 @@
+## [1.0.3] - 2026-02-17
+
+### Summary
+
+fix(build): code relationship mapping with 4 supporting modules
+
+### Docs
+
+- docs: update README
+
+### Other
+
+- update .env.example
+- build: update Makefile
+- update assets/css/style.css
+- update assets/img/1-select-type.png
+- update assets/img/2-setup-connection.png
+- update assets/img/3-docker-terminal.png
+- update database/.gitkeep
+- update database/codereview.db
+- update docker/logs/access_log
+- update docker/logs/error_log
+- ... and 2 more
+
+
 ## [1.0.2] - 2026-02-17
 
 ### Summary

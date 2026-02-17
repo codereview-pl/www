@@ -126,6 +126,55 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-label">// Jak to działa</div>
+            <h2 class="section-title">3 kroki do rozpoczęcia</h2>
+            <p class="section-desc">Proste wdrożenie mentoringu na żywo w kilka minut.</p>
+        </div>
+        
+        <div class="how-steps fade-in">
+            <!-- Step 1 -->
+            <div class="how-step">
+                <div class="how-step-content">
+                    <div class="how-step-number">1</div>
+                    <h3>Wybierz typ sesji</h3>
+                    <p>Mentor → Student, Pair Programming lub grupowy bootcamp. Skonfiguruj role i uprawnienia.</p>
+                </div>
+                <div class="how-step-image">
+                    <img src="/assets/img/1-select-type.png" alt="Wybór typu sesji mentoringowej" loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="how-step">
+                <div class="how-step-content">
+                    <div class="how-step-number">2</div>
+                    <h3>Nawiąż połączenie</h3>
+                    <p>Pobierz aplikację lub użyj WebVM. Udostępnij link studentowi — połączenie szyfrowane.</p>
+                </div>
+                <div class="how-step-image">
+                    <img src="/assets/img/2-setup-connection.png" alt="Konfiguracja połączenia mentoringowego" loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="how-step">
+                <div class="how-step-content">
+                    <div class="how-step-number">3</div>
+                    <h3>Zacznij mentoring</h3>
+                    <p>Terminal, VS Code, Docker, chat głosowy. Wszystko w jednym oknie z podglądem na żywo.</p>
+                </div>
+                <div class="how-step-image">
+                    <img src="/assets/img/3-docker-terminal.png" alt="Terminal i Docker workspace w akcji" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- CTA -->
 <section class="cta-section">
     <div class="container">
