@@ -41,6 +41,7 @@ function get_nav_items(): array {
         ['url' => '/#how-it-works', 'label' => __('nav_how_it_works')],
         ['url' => '/porownanie',  'label' => __('nav_comparison')],
         ['url' => '/marketplace', 'label' => __('nav_marketplace')],
+        ['url' => '/sesje',       'label' => __('nav_sessions')],
         ['url' => '/cennik',      'label' => __('nav_pricing')],
         ['url' => '/dokumentacja','label' => __('nav_docs')],
         ['url' => '/api',         'label' => __('nav_api')],

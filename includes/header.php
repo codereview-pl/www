@@ -38,11 +38,18 @@ Logger::access('Page view', [
             <div class="logo-icon">CR</div>
             Code<span>Review</span>.pl
         </a>
-        <ul class="nav-links">
+        <ul class="nav-links" id="navLinks">
             <?php foreach (get_nav_items() as $item): ?>
             <li><a href="<?= $item['url'] ?>"<?= is_current_page($item['url']) ? ' class="active"' : '' ?>><?= $item['label'] ?></a></li>
             <?php endforeach; ?>
         </ul>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu" style="display:none;background:none;border:none;cursor:pointer;padding:8px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
         <div class="nav-cta">
             <div class="lang-switcher" style="display:flex;gap:8px;margin-right:12px;font-size:.8rem;font-weight:600;font-family:var(--font-mono);">
                 <?php foreach (Language::getLangs() as $l): ?>
@@ -54,3 +61,14 @@ Logger::access('Page view', [
         </div>
     </div>
 </nav>
+<script>
+(function(){
+    var btn=document.getElementById('mobileMenuBtn');
+    var nav=document.getElementById('navLinks');
+    if(btn&&nav){btn.addEventListener('click',function(){nav.classList.toggle('active');btn.classList.toggle('active');});
+    var mq=window.matchMedia('(max-width:900px)');
+    function check(m){btn.style.display=m.matches?'flex':'none';if(!m.matches)nav.classList.remove('active');}
+    mq.addListener(check);check(mq);
+    nav.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){if(mq.matches)nav.classList.remove('active');});});
+}})();
+</script>

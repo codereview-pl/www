@@ -1,3 +1,21 @@
+## [1.0.8] - 2026-02-17
+
+### Summary
+
+feat(config): deep code analysis engine with 4 supporting modules
+
+### Core
+
+- update includes/config.php
+- update includes/header.php
+
+### Other
+
+- update assets/css/style.css
+- update lang/en.php
+- update lang/pl.php
+
+
 ## [1.0.7] - 2026-02-17
 
 ### Summary
