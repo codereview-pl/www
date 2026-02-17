@@ -54,6 +54,11 @@ clean: ## Clean Docker containers and volumes
 	docker-compose down -v
 	docker system prune -f
 
+# Testing
+.PHONY: test-e2e
+test-e2e: ## Run E2E tests against running environment
+	@bash ./scripts/test-e2e.sh http://localhost:8080
+
 # Development utilities
 .PHONY: install-dev test-dev lint-dev install
 install: ## Install project (create .env from .env.example)

@@ -1,0 +1,15 @@
+[
+    {
+        "id": "23b6146d98d1b0b5",
+        "topic": "E2E Test Session",
+        "host": "TestUser",
+        "participants": [
+            "TestUser"
+        ],
+        "max_participants": 3,
+        "duration": 15,
+        "created": 1771323006,
+        "expires": 1771323906,
+        "status": "waiting"
+    }
+]

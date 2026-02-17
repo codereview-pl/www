@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../includes/bootstrap.php';
 $page_title = __('nav_pricing');
 $page_desc  = __('price_desc');
 require_once __DIR__ . '/../includes/header.php';

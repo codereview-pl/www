@@ -7,11 +7,12 @@ $page_desc = __('sessions_desc');
 $session_duration = 15;
 $max_participants = 3;
 
-$sessions_file = __DIR__ . '/data/sessions.json';
-$messages_file = __DIR__ . '/data/messages.json';
+$data_dir = __DIR__ . '/../data';
+$sessions_file = $data_dir . '/sessions.json';
+$messages_file = $data_dir . '/messages.json';
 
-if (!is_dir(__DIR__ . '/data')) {
-    mkdir(__DIR__ . '/data', 0755, true);
+if (!is_dir($data_dir)) {
+    @mkdir($data_dir, 0777, true);
 }
 
 function load_sessions($file) {
@@ -145,75 +146,58 @@ if ($action === 'send' && $room_id && isset($sessions[$room_id])) {
 
 $current_session = $room_id && isset($sessions[$room_id]) ? $sessions[$room_id] : null;
 $room_messages = $current_session ? ($messages[$room_id] ?? []) : [];
+
+$page_css = '
+.sessions-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin-top:40px}
+.session-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:all .3s}
+.session-card:hover{border-color:var(--border-accent);transform:translateY(-2px)}
+.session-card.full{opacity:.7}
+.session-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:16px}
+.session-topic{font-size:1.1rem;font-weight:700;margin-bottom:8px}
+.session-host{color:var(--text-muted);font-size:.85rem}
+.session-meta{display:flex;gap:16px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.session-meta span{font-size:.8rem;color:var(--text-muted)}
+.session-status{font-size:.75rem;font-weight:600;padding:4px 10px;border-radius:100px}
+.session-status.waiting{background:var(--accent-glow);color:var(--accent)}
+.session-status.in_progress{background:rgba(108,99,255,.15);color:var(--secondary)}
+.session-status.full{background:rgba(255,107,107,.15);color:var(--warn)}
+.btn-join{width:100%;margin-top:16px}
+.room-view{display:grid;grid-template-columns:1fr 320px;gap:24px;margin-top:40px}
+.room-main{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.room-sidebar{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;height:fit-content}
+.room-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.participants-list{list-style:none}
+.participants-list li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.participants-list li:last-child{border-bottom:none}
+.participant-avatar{width:32px;height:32px;background:var(--accent);color:var(--bg-deep);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem}
+.participant-host{font-size:.75rem;color:var(--accent);margin-left:auto}
+.chat-messages{height:300px;overflow-y:auto;margin-bottom:16px;padding:16px;background:var(--bg-elevated);border-radius:var(--radius-sm)}
+.chat-msg{margin-bottom:12px}
+.chat-msg .sender{font-size:.8rem;font-weight:600;color:var(--accent)}
+.chat-msg .text{color:var(--text-dim);font-size:.9rem;margin-top:4px}
+.chat-msg .time{font-size:.7rem;color:var(--text-muted)}
+.llm-panel{margin-top:24px;padding:20px;background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(0,229,155,.1));border:1px solid var(--border-secondary);border-radius:var(--radius-sm)}
+.llm-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.llm-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.llm-dot.offline{background:var(--warn)}
+.llm-status{font-size:.85rem;color:var(--text-muted)}
+.create-form{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-top:40px}
+.create-form h3{margin-bottom:24px}
+.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);text-decoration:none;margin-bottom:24px}
+.back-link:hover{color:var(--accent)}
+@media(max-width:900px){.room-view{grid-template-columns:1fr}}
+';
+
+require_once __DIR__ . '/../includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="<?= Language::getCurrent() ?>">
-<head>
-    <?php include __DIR__ . '/includes/header.php'; ?>
-    <style>
-        .sessions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-top: 40px; }
-        .session-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: all .3s; }
-        .session-card:hover { border-color: var(--border-accent); transform: translateY(-2px); }
-        .session-card.full { opacity: 0.7; }
-        .session-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px; }
-        .session-topic { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
-        .session-host { color: var(--text-muted); font-size: .85rem; }
-        .session-meta { display: flex; gap: 16px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
-        .session-meta span { font-size: .8rem; color: var(--text-muted); }
-        .session-status { font-size: .75rem; font-weight: 600; padding: 4px 10px; border-radius: 100px; }
-        .session-status.waiting { background: var(--accent-glow); color: var(--accent); }
-        .session-status.in_progress { background: rgba(108,99,255,.15); color: var(--secondary); }
-        .session-status.full { background: rgba(255,107,107,.15); color: var(--warn); }
-        .btn-join { width: 100%; margin-top: 16px; }
-        
-        .room-view { display: grid; grid-template-columns: 1fr 320px; gap: 24px; margin-top: 40px; }
-        .room-main { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
-        .room-sidebar { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; height: fit-content; }
-        .room-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-        .participants-list { list-style: none; }
-        .participants-list li { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-        .participants-list li:last-child { border-bottom: none; }
-        .participant-avatar { width: 32px; height: 32px; background: var(--accent); color: var(--bg-deep); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .85rem; }
-        .participant-host { font-size: .75rem; color: var(--accent); margin-left: auto; }
-        
-        .chat-messages { height: 300px; overflow-y: auto; margin-bottom: 16px; padding: 16px; background: var(--bg-elevated); border-radius: var(--radius-sm); }
-        .chat-msg { margin-bottom: 12px; }
-        .chat-msg .sender { font-size: .8rem; font-weight: 600; color: var(--accent); }
-        .chat-msg .text { color: var(--text-dim); font-size: .9rem; margin-top: 4px; }
-        .chat-msg .time { font-size: .7rem; color: var(--text-muted); }
-        
-        .llm-panel { margin-top: 24px; padding: 20px; background: linear-gradient(135deg, rgba(108,99,255,.1), rgba(0,229,155,.1)); border: 1px solid var(--border-secondary); border-radius: var(--radius-sm); }
-        .llm-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-        .llm-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-        .llm-dot.offline { background: var(--warn); }
-        .llm-status { font-size: .85rem; color: var(--text-muted); }
-        
-        .create-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-top: 40px; }
-        .create-form h3 { margin-bottom: 24px; }
-        
-        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; margin-bottom: 24px; }
-        .back-link:hover { color: var(--accent); }
-        
-        @media(max-width: 900px) { .room-view { grid-template-columns: 1fr; } }
-    </style>
-</head>
-<body>
-    <?php include __DIR__ . '/includes/header.php'; ?>
-    
-    <main>
-        <section class="page-hero">
-            <div class="hero-glow"></div>
-            <div class="container">
-                <div class="hero-content">
-                    <div class="section-label"><?= __('sessions_label') ?></div>
-                    <h1><?= __('sessions_title') ?></h1>
-                    <p><?= __('sessions_desc') ?></p>
-                </div>
-            </div>
-        </section>
-        
-        <section style="padding-top: 0;">
-            <div class="container">
+<section class="page-hero"><div class="hero-glow"></div><div class="container">
+    <div class="breadcrumbs"><a href="/"><?= __('nav_home') ?></a><span class="sep">/</span><span class="current"><?= __('nav_sessions') ?></span></div>
+    <h1><?= __('sessions_title') ?></h1>
+    <p><?= __('sessions_desc') ?></p>
+</div></section>
+
+<section style="padding-top: 0;">
+    <div class="container">
                 <?php if ($current_session): ?>
                     <a href="/sesje" class="back-link">← <?= __('nav_sessions') ?></a>
                     
@@ -347,11 +331,7 @@ $room_messages = $current_session ? ($messages[$room_id] ?? []) : [];
                             <button type="submit" name="create_session" class="btn btn-primary"><?= __('sessions_start') ?></button>
                         </form>
                     </div>
-                <?php endif; ?>
-            </div>
-        </section>
-    </main>
-    
-    <?php include __DIR__ . '/includes/footer.php'; ?>
-</body>
-</html>
+        <?php endif; ?>
+    </div>
+</section>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
