@@ -1,0 +1,98 @@
+###############################################
+# CodeReview.pl — Plesk-like Docker Environment
+# PHP 8.3 + Apache 2.4 + MySQL 8 + phpMyAdmin
+# Mirrors Plesk Obsidian on Ubuntu/Debian
+###############################################
+
+services:
+  # ─── Web Server (Apache + PHP-FPM) ──────────
+  # Mimics Plesk's Apache proxy → PHP-FPM setup
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: codereview-web
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      # Document root → maps to Plesk's /var/www/vhosts/codereview.pl/httpdocs/
+      - ./:/var/www/vhosts/codereview.pl/httpdocs
+      # Apache vhost config
+      - ./docker/conf/apache-vhost.conf:/etc/apache2/sites-available/000-default.conf
+      # PHP config overrides (like Plesk's PHP Settings panel)
+      - ./docker/conf/php-custom.ini:/usr/local/etc/php/conf.d/99-custom.ini
+      # Logs → like Plesk's /var/www/vhosts/system/codereview.pl/logs/
+      - ./docker/logs:/var/www/vhosts/system/codereview.pl/logs
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/vhosts/codereview.pl/httpdocs
+      - APP_ENV=development
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=codereview
+      - DB_USERNAME=codereview
+      - DB_PASSWORD=codereview_secret
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - codereview-net
+    restart: unless-stopped
+
+  # ─── MySQL 8 (Plesk default) ────────────────
+  db:
+    image: mysql:8.0
+    container_name: codereview-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./docker/conf/mysql-custom.cnf:/etc/mysql/conf.d/custom.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: codereview
+      MYSQL_USER: codereview
+      MYSQL_PASSWORD: codereview_secret
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_secret"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - codereview-net
+    restart: unless-stopped
+
+  # ─── phpMyAdmin (like Plesk's DB panel) ─────
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: codereview-pma
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: codereview
+      PMA_PASSWORD: codereview_secret
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - codereview-net
+    restart: unless-stopped
+
+  # ─── Mailhog (like Plesk's mail) ────────────
+  mail:
+    image: mailhog/mailhog:latest
+    container_name: codereview-mail
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    networks:
+      - codereview-net
+    restart: unless-stopped
+
+volumes:
+  db-data:
+
+networks:
+  codereview-net:
+    driver: bridge
