@@ -1,3 +1,34 @@
+## [1.0.7] - 2026-02-17
+
+### Summary
+
+refactor(build): deep code analysis engine with 5 supporting modules
+
+### Core
+
+- update includes/bootstrap.php
+- update includes/config.php
+- update includes/footer.php
+- update includes/header.php
+- update includes/lang.php
+
+### Docs
+
+- docs: update README
+
+### Config
+
+- config: update goal.yaml
+
+### Other
+
+- build: update Makefile
+- update assets/js/main.js
+- update index.php
+- update lang/en.php
+- update lang/pl.php
+
+
 ## [1.0.6] - 2026-02-17
 
 ### Summary

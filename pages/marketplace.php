@@ -4,54 +4,106 @@ $page_desc  = 'Peer-to-peer marketplace mentoringu z escrow, fakturami VAT i Str
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/mentor.php';
 
+$search = $_GET['search'] ?? '';
+$tech = $_GET['tech'] ?? '';
 $mentors = Mentor::getAll();
+
+// Simple filtering logic (in production this would be in the model/DB)
+if (!empty($search) || !empty($tech)) {
+    $mentors = array_filter($mentors, function($m) use ($search, $tech) {
+        $matchSearch = empty($search) || 
+                       stripos($m['name'], $search) !== false || 
+                       stripos($m['bio'], $search) !== false;
+        
+        $specs = is_string($m['specialties'] ?? '') ? explode(',', $m['specialties']) : ($m['specialties'] ?? []);
+        $matchTech = empty($tech) || in_array($tech, array_map('trim', $specs));
+        
+        return $matchSearch && $matchTech;
+    });
+}
+
+// Get unique tech tags for filter
+$all_techs = [];
+foreach (Mentor::getAll() as $m) {
+    $specs = is_string($m['specialties'] ?? '') ? explode(',', $m['specialties']) : ($m['specialties'] ?? []);
+    foreach ($specs as $s) $all_techs[] = trim($s);
+}
+$unique_techs = array_unique($all_techs);
+sort($unique_techs);
 ?>
 <section class="page-hero"><div class="hero-glow"></div><div class="container">
-    <div class="breadcrumbs"><a href="/">Start</a><span class="sep">/</span><span class="current">Marketplace</span></div>
-    <h1>Marketplace<br><span class="gradient-text">korepetycji</span></h1>
-    <p>Peer-to-peer mentoring z escrow, fakturami VAT i automatycznymi reklamacjami. Pełny compliance DSA/GPSR/Omnibus.</p>
+    <div class="breadcrumbs"><a href="/"><?= __('nav_home') ?></a><span class="sep">/</span><span class="current"><?= __('nav_marketplace') ?></span></div>
+    <h1><?= __('market_title') ?></h1>
+    <p><?= __('market_desc') ?></p>
 </div></section>
 
 <section><div class="container">
+    <!-- Filters -->
+    <div class="filter-bar fade-in" style="background:var(--bg-card);padding:24px;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:48px;">
+        <form action="/marketplace" method="GET" style="display:grid;grid-template-columns:1fr auto auto;gap:16px;align-items:end;">
+            <div class="form-group" style="margin-bottom:0;">
+                <label for="search" style="font-size:.8rem;margin-bottom:8px;"><?= __('market_search_placeholder') ?></label>
+                <input type="text" id="search" name="search" class="form-input" placeholder="<?= __('market_search_placeholder') ?>" value="<?= htmlspecialchars($search) ?>">
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+                <label for="tech" style="font-size:.8rem;margin-bottom:8px;"><?= __('nav_api') ?></label>
+                <select id="tech" name="tech" class="form-select" style="min-width:180px;">
+                    <option value=""><?= __('market_tech_all') ?></option>
+                    <?php foreach ($unique_techs as $t): ?>
+                    <option value="<?= htmlspecialchars($t) ?>" <?= $tech === $t ? 'selected' : '' ?>><?= htmlspecialchars($t) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="height:46px;"><?= __('market_filter_btn') ?></button>
+        </form>
+    </div>
+
     <div class="section-header fade-in">
-        <div class="section-label">// Mentorzy</div>
-        <h2 class="section-title">Znajdź swojego mentora</h2>
-        <p class="section-desc">Najlepsi specjaliści gotowi do pomocy na żywo.</p>
+        <div class="section-label"><?= __('market_mentor_label') ?></div>
+        <h2 class="section-title"><?= __('market_mentor_title') ?></h2>
+        <p class="section-desc"><?= __('market_mentor_desc') ?></p>
     </div>
 
     <div class="mentors-grid fade-in" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-bottom:64px;">
-        <?php foreach ($mentors as $m): ?>
-        <div class="mentor-card" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:all .3s ease;">
-            <div style="display:flex;gap:16px;margin-bottom:16px;">
-                <img src="<?= $m['avatar_url'] ?>" alt="<?= $m['name'] ?>" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);">
-                <div>
-                    <h3 style="font-size:1.1rem;font-weight:700;margin:0;"><?= $m['name'] ?></h3>
-                    <div style="display:flex;align-items:center;gap:4px;margin-top:4px;">
-                        <span style="color:#fbbf24;">★</span>
-                        <span style="font-size:.85rem;color:var(--text-dim);"><?= $m['rating'] ?></span>
+        <?php if (empty($mentors)): ?>
+            <div style="grid-column:1/-1;text-align:center;padding:48px;background:var(--bg-card);border-radius:var(--radius);border:1px dashed var(--border);">
+                <p style="color:var(--text-dim);"><?= __('market_no_mentors') ?></p>
+                <a href="/marketplace" class="btn btn-ghost" style="margin-top:16px;"><?= __('market_clear_filters') ?></a>
+            </div>
+        <?php else: ?>
+            <?php foreach ($mentors as $m): ?>
+            <div class="mentor-card" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:all .3s ease;">
+                <div style="display:flex;gap:16px;margin-bottom:16px;">
+                    <img src="<?= $m['avatar_url'] ?>" alt="<?= $m['name'] ?>" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);">
+                    <div>
+                        <h3 style="font-size:1.1rem;font-weight:700;margin:0;"><?= $m['name'] ?></h3>
+                        <div style="display:flex;align-items:center;gap:4px;margin-top:4px;">
+                            <span style="color:#fbbf24;">★</span>
+                            <span style="font-size:.85rem;color:var(--text-dim);"><?= $m['rating'] ?></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <p style="font-size:.9rem;color:var(--text-dim);margin-bottom:16px;line-height:1.5;min-height:3em;"><?= $m['bio'] ?></p>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
-                <?php 
-                $specs = is_string($m['specialties'] ?? '') ? explode(',', $m['specialties']) : ($m['specialties'] ?? []);
-                foreach ($specs as $s): ?>
-                <span class="badge" style="background:var(--bg-elevated);color:var(--accent);padding:4px 10px;border-radius:6px;font-size:.75rem;font-weight:600;"><?= trim($s) ?></span>
-                <?php endforeach; ?>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--border);">
-                <div>
-                    <span style="font-size:1.2rem;font-weight:800;color:var(--text);"><?= $m['price_pln'] ?> zł</span>
-                    <span style="font-size:.8rem;color:var(--text-dim);">/ h</span>
+                <p style="font-size:.9rem;color:var(--text-dim);margin-bottom:16px;line-height:1.5;min-height:3em;"><?= $m['bio'] ?></p>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
+                    <?php 
+                    $specs = is_string($m['specialties'] ?? '') ? explode(',', $m['specialties']) : ($m['specialties'] ?? []);
+                    foreach ($specs as $s): ?>
+                    <span class="badge" style="background:var(--bg-elevated);color:var(--accent);padding:4px 10px;border-radius:6px;font-size:.75rem;font-weight:600;"><?= trim($s) ?></span>
+                    <?php endforeach; ?>
                 </div>
-                <a href="#" class="btn btn-primary btn-sm">Rezerwuj</a>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--border);">
+                    <div>
+                        <span style="font-size:1.2rem;font-weight:800;color:var(--text);"><?= $m['price_pln'] ?> zł</span>
+                        <span style="font-size:.8rem;color:var(--text-dim);">/ h</span>
+                    </div>
+                    <a href="#" class="btn btn-primary btn-sm"><?= __('market_reserve_btn') ?></a>
+                </div>
             </div>
-        </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 
-    <div class="section-header fade-in"><div class="section-label">// Flow transakcji</div><h2 class="section-title">Jak działa marketplace?</h2></div>
+    <div class="section-header fade-in"><div class="section-label"><?= __('market_flow_label') ?></div><h2 class="section-title"><?= __('market_flow_title') ?></h2></div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:64px;" class="fade-in">
         <?php foreach([['1','🔍 Szukaj mentora','Filtruj po technologii, stawce, języku. Profile z GitHub OAuth.'],['2','💳 Zarezerwuj sesję','Stripe escrow — pieniądze nie trafiają od razu do mentora.'],['3','💻 Sesja live','Terminal, Docker, VS Code, chat + voice.'],['4','⭐ Oceń i zapłać','Ocena → auto-release po 24h. Faktura VAT.']] as $s): ?>
         <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;position:relative;">
@@ -62,8 +114,8 @@ $mentors = Mentor::getAll();
         <?php endforeach; ?>
     </div>
     <div class="how-diagram fade-in" style="padding:36px;">
-        <h3 style="font-family:var(--font-sans);font-size:1.1rem;font-weight:700;margin-bottom:20px;text-align:center;">Dlaczego nie prosty model OLX?</h3>
-        <table class="data-table"><thead><tr><th>Aspekt</th><th>OLX</th><th>CodeReview.pl</th></tr></thead><tbody>
+        <h3 style="font-family:var(--font-sans);font-size:1.1rem;font-weight:700;margin-bottom:20px;text-align:center;"><?= __('market_why_title') ?></h3>
+        <table class="data-table"><thead><tr><th><?= __('market_aspect') ?></th><th>OLX</th><th>CodeReview.pl</th></tr></thead><tbody>
             <tr><td style="font-weight:600;">Płatności</td><td style="color:var(--warn);">Brak</td><td style="color:var(--accent);">Stripe Connect + escrow</td></tr>
             <tr><td style="font-weight:600;">Faktury</td><td style="color:var(--warn);">Brak</td><td style="color:var(--accent);">VAT 23% auto</td></tr>
             <tr><td style="font-weight:600;">Ochrona kupującego</td><td style="color:var(--warn);">Brak</td><td style="color:var(--accent);">Escrow + reklamacja 24h</td></tr>
@@ -73,7 +125,7 @@ $mentors = Mentor::getAll();
     </div>
 </div></section>
 <section><div class="container">
-    <div class="section-header fade-in"><div class="section-label">// Reklamacje</div><h2 class="section-title">System reklamacji</h2></div>
+    <div class="section-header fade-in"><div class="section-label"><?= __('market_complaints_label') ?></div><h2 class="section-title"><?= __('market_complaints_title') ?></h2></div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" class="fade-in">
         <?php foreach([['📩','Zgłoszenie','Uczeń zgłasza w ciągu 24h od sesji.'],['🔍','Weryfikacja','Automatyczna analiza logów i nagrań.'],['💸','Rozwiązanie','Zwrot 100% lub mediacja 50/50 w 24h.'],['🚫','Konsekwencje','Ban mentora po 2 uznanych reklamacjach.']] as $r): ?>
         <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
@@ -85,8 +137,8 @@ $mentors = Mentor::getAll();
     </div>
 </div></section>
 <section class="cta-section"><div class="container"><div class="cta-box fade-in">
-    <h2>Zostań mentorem i <span class="gradient-text">zarabiaj ucząc</span></h2>
-    <p>GitHub OAuth. Profil gotowy w 2 minuty.</p>
-    <div class="cta-actions"><a href="#" class="btn btn-primary">Zostań mentorem</a><a href="#" class="btn btn-ghost">Znajdź mentora →</a></div>
+    <h2><?= __('market_be_mentor_title') ?></h2>
+    <p><?= __('market_be_mentor_desc') ?></p>
+    <div class="cta-actions"><a href="#" class="btn btn-primary"><?= __('market_be_mentor_btn') ?></a><a href="#" class="btn btn-ghost"><?= __('market_find_mentor_btn') ?></a></div>
 </div></div></section>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

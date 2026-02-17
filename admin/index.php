@@ -121,12 +121,44 @@ $page_title = 'Admin Dashboard';
                         $path = $logDir . '/' . $file;
                         $exists = file_exists($path);
                         $size = $exists ? number_format(filesize($path) / 1024, 2) . ' KB' : 'n/a';
+                        $writable = $exists ? is_writable($path) : is_writable($logDir);
                     ?>
                     <tr>
                         <td><?= $file ?></td>
-                        <td><?= $size ?> <?= $exists ? '<span class="badge badge-success">OK</span>' : '<span class="badge badge-danger">Missing</span>' ?></td>
+                        <td>
+                            <?= $size ?> 
+                            <?= $exists ? '<span class="badge badge-success">OK</span>' : '<span class="badge badge-danger">Missing</span>' ?>
+                            <?= $writable ? '' : '<span class="badge badge-danger">Locked</span>' ?>
+                        </td>
                     </tr>
                     <?php } ?>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>🩺 Health Check</h2>
+                <table class="info-table">
+                    <tr>
+                        <td>Baza danych (PDO)</td>
+                        <td>
+                            <?php 
+                            $db = get_db();
+                            echo $db ? '<span class="badge badge-success">Połączono</span>' : '<span class="badge badge-danger">Błąd</span>';
+                            ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Katalog logów</td>
+                        <td>
+                            <?= is_writable(__DIR__ . '/../logs') ? '<span class="badge badge-success">Zapisywalny</span>' : '<span class="badge badge-danger">Brak uprawnień</span>' ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sesja PHP</td>
+                        <td>
+                            <?= session_id() ? '<span class="badge badge-success">Aktywna</span>' : '<span class="badge badge-danger">Nieaktywna</span>' ?>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>

@@ -132,13 +132,8 @@ db-reset-mysql: ## Reset MySQL database
 	@echo "MySQL database reset. Waiting for initialization..."
 	sleep 10
 
-db-init: ## Initialize SQLite database with basic schema
-	@echo "Initializing SQLite database..."
-	docker-compose exec web php -r "
-	\$db = new PDO('sqlite:/var/www/vhosts/codereview.pl/httpdocs/database/codereview.db');
-	\$db->exec('CREATE TABLE IF NOT EXISTS migrations (id INTEGER PRIMARY KEY, migration VARCHAR(255), executed_at DATETIME DEFAULT CURRENT_TIMESTAMP)');
-	echo 'SQLite database initialized with migrations table\n';
-	"
+db-init: ## Initialize database with schema (PHP script)
+	@docker-compose exec web php database/init_db.php
 
 # Maintenance
 .PHONY: update-deps check-deps

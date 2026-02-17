@@ -1,6 +1,6 @@
 <?php
-$page_title = 'Porównanie Narzędzi';
-$page_desc  = 'Porównanie CodeReview.pl z innymi narzędziami do pair programmingu i mentoringu.';
+$page_title = __('nav_comparison');
+$page_desc  = __('comp_desc');
 require_once __DIR__ . '/../includes/header.php';
 
 // Log page access
@@ -11,16 +11,16 @@ Logger::info('Comparison page viewed', [
 ?>
 
 <section class="page-hero"><div class="hero-glow"></div><div class="container">
-    <div class="breadcrumbs"><a href="/">Start</a><span class="sep">/</span><span class="current">Porównanie</span></div>
-    <h1>Porównanie<br><span class="gradient-text">Narzędzi</span></h1>
-    <p>CodeReview.pl vs inne platformy do pair programmingu i mentoringu programistycznego.</p>
+    <div class="breadcrumbs"><a href="/"><?= __('nav_home') ?></a><span class="sep">/</span><span class="current"><?= __('nav_comparison') ?></span></div>
+    <h1><?= __('comp_title') ?></h1>
+    <p><?= __('comp_desc') ?></p>
 </div></section>
 
 <section><div class="container">
     <div class="section-header fade-in">
-        <div class="section-label">// Porównanie</div>
-        <h2 class="section-title">CodeReview.pl vs Konkurencja</h2>
-        <p class="section-desc">Szczegółowe porównanie funkcji, możliwości i zastosowań.</p>
+        <div class="section-label"><?= __('comp_label') ?></div>
+        <h2 class="section-title"><?= __('comp_subtitle') ?></h2>
+        <p class="section-desc"><?= __('comp_subdesc') ?></p>
     </div>
 
     <!-- Comparison Table -->
@@ -28,14 +28,14 @@ Logger::info('Comparison page viewed', [
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>Narzędzie</th>
-                    <th>Typ</th>
-                    <th>Współpraca Live</th>
-                    <th>Terminal/Docker</th>
-                    <th>Dostęp do Dysku</th>
-                    <th>Instalacja</th>
-                    <th>Cena</th>
-                    <th>Zastosowanie</th>
+                    <th><?= __('comp_header_tool') ?></th>
+                    <th><?= __('comp_header_type') ?></th>
+                    <th><?= __('comp_header_live') ?></th>
+                    <th><?= __('comp_header_docker') ?></th>
+                    <th><?= __('comp_header_disk') ?></th>
+                    <th><?= __('comp_header_install') ?></th>
+                    <th><?= __('comp_header_price') ?></th>
+                    <th><?= __('comp_header_use') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -48,175 +48,191 @@ Logger::info('Comparison page viewed', [
                         </div>
                     </td>
                     <td><span class="badge badge-accent">Hybrydowa</span></td>
-                    <td>✅ Pełna (ekran + terminal)</td>
+                    <td>✅ <?= Language::getCurrent() === 'pl' ? 'Pełna (ekran + terminal)' : 'Full (screen + terminal)' ?></td>
                     <td>✅ Docker + root</td>
-                    <td>✅ Pełny dostęp</td>
+                    <td>✅ <?= Language::getCurrent() === 'pl' ? 'Pełny dostęp' : 'Full access' ?></td>
                     <td>Desktop/WebVM</td>
                     <td><strong>29-149 zł/mies</strong></td>
                     <td>Edukacja, bootcampy, onboarding</td>
                 </tr>
+<?php
+$tools = [
+    [
+        'name' => 'PairCode',
+        'url' => 'https://paircode.live/',
+        'type' => 'Web',
+        'live' => '✅ Ekran + video/audio',
+        'live_en' => '✅ Screen + video/audio',
+        'docker' => '❌ Brak terminala',
+        'docker_en' => '❌ No terminal',
+        'disk' => '❌ Ograniczony',
+        'disk_en' => '❌ Limited',
+        'install' => 'Brak',
+        'install_en' => 'None',
+        'price' => 'Free/Premium',
+        'use' => 'Szybkie sesje debugowania',
+        'use_en' => 'Quick debugging sessions'
+    ],
+    [
+        'name' => 'Replit Multiplayer',
+        'url' => 'https://replit.com',
+        'type' => 'Cloud',
+        'live' => '✅ Multi-cursor',
+        'live_en' => '✅ Multi-cursor',
+        'docker' => '✅ Terminal (nie root)',
+        'docker_en' => '✅ Terminal (non-root)',
+        'disk' => '✅ W sandboxie',
+        'disk_en' => '✅ In sandbox',
+        'install' => 'Brak',
+        'install_en' => 'None',
+        'price' => 'Free/$20/mies',
+        'use' => 'Python/AI prototyping',
+        'use_en' => 'Python/AI prototyping'
+    ],
+    [
+        'name' => 'CodeSandbox',
+        'url' => 'https://codesandbox.io',
+        'type' => 'Web',
+        'live' => '✅ Live collab',
+        'live_en' => '✅ Live collab',
+        'docker' => '✅ Docker previews',
+        'docker_en' => '✅ Docker previews',
+        'disk' => '✅ W projekcie',
+        'disk_en' => '✅ In project',
+        'install' => 'Brak',
+        'install_en' => 'None',
+        'price' => 'Free/$19/mies',
+        'use' => 'Front-end, Node.js',
+        'use_en' => 'Front-end, Node.js'
+    ],
+    [
+        'name' => 'StackBlitz',
+        'url' => 'https://stackblitz.com',
+        'type' => 'Web',
+        'live' => '✅ Mysz/klawiatura sync',
+        'live_en' => '✅ Mouse/keyboard sync',
+        'docker' => '✅ WebContainers',
+        'docker_en' => '✅ WebContainers',
+        'disk' => '✅ Pełny Node',
+        'disk_en' => '✅ Full Node',
+        'install' => 'Brak',
+        'install_en' => 'None',
+        'price' => 'Free/$20/mies',
+        'use' => 'Rust/Go/Node',
+        'use_en' => 'Rust/Go/Node'
+    ],
+    [
+        'name' => 'Gitpod',
+        'url' => 'https://gitpod.io',
+        'type' => 'Cloud',
+        'live' => '✅ VS Code share',
+        'live_en' => '✅ VS Code share',
+        'docker' => '✅ Docker/Git',
+        'docker_en' => '✅ Docker/Git',
+        'disk' => '✅ Pełny workspace',
+        'disk_en' => '✅ Full workspace',
+        'install' => 'Brak',
+        'install_en' => 'None',
+        'price' => 'Free/$50/mies',
+        'use' => 'Repo-based development',
+        'use_en' => 'Repo-based development'
+    ],
+    [
+        'name' => 'CodePen',
+        'url' => 'https://codepen.io',
+        'type' => 'Web',
+        'live' => '✅ Multi-user',
+        'live_en' => '✅ Multi-user',
+        'docker' => '❌ Brak',
+        'docker_en' => '❌ None',
+        'disk' => '❌ Ograniczony',
+        'disk_en' => '❌ Limited',
+        'install' => 'Brak',
+        'install_en' => 'None',
+        'price' => 'Free/$10/mies',
+        'use' => 'HTML/CSS/JS prototypy',
+        'use_en' => 'HTML/CSS/JS prototypes'
+    ]
+];
 
-                <!-- PairCode -->
+foreach ($tools as $t): 
+    $isEn = Language::getCurrent() === 'en';
+?>
                 <tr>
                     <td>
                         <div class="tool-info">
-                            <strong><a href="https://paircode.live/" target="_blank">PairCode</a></strong><br>
-                            <small>Przeglądarkowe</small>
+                            <strong><a href="<?= $t['url'] ?>" target="_blank"><?= $t['name'] ?></a></strong>
                         </div>
                     </td>
-                    <td><span class="badge">Web</span></td>
-                    <td>✅ Ekran + video/audio</td>
-                    <td>❌ Brak terminala</td>
-                    <td>❌ Ograniczony</td>
-                    <td>Brak</td>
-                    <td>Free/Premium</td>
-                    <td>Szybkie sesje debugowania</td>
+                    <td><span class="badge"><?= $t['type'] ?></span></td>
+                    <td><?= $isEn ? $t['live_en'] : $t['live'] ?></td>
+                    <td><?= $isEn ? $t['docker_en'] : $t['docker'] ?></td>
+                    <td><?= $isEn ? $t['disk_en'] : $t['disk'] ?></td>
+                    <td><?= $isEn ? $t['install_en'] : $t['install'] ?></td>
+                    <td><?= $t['price'] ?></td>
+                    <td><?= $isEn ? $t['use_en'] : $t['use'] ?></td>
                 </tr>
-
-                <!-- Replit Multiplayer -->
-                <tr>
-                    <td>
-                        <div class="tool-info">
-                            <strong><a href="https://replit.com" target="_blank">Replit Multiplayer</a></strong><br>
-                            <small>Cloud IDE</small>
-                        </div>
-                    </td>
-                    <td><span class="badge">Cloud</span></td>
-                    <td>✅ Multi-cursor</td>
-                    <td>✅ Terminal (nie root)</td>
-                    <td>✅ W sandboxie</td>
-                    <td>Brak</td>
-                    <td>Free/$20/mies</td>
-                    <td>Python/AI prototyping</td>
-                </tr>
-
-                <!-- CodeSandbox -->
-                <tr>
-                    <td>
-                        <div class="tool-info">
-                            <strong><a href="https://codesandbox.io" target="_blank">CodeSandbox</a></strong><br>
-                            <small>Web IDE</small>
-                        </div>
-                    </td>
-                    <td><span class="badge">Web</span></td>
-                    <td>✅ Live collab</td>
-                    <td>✅ Docker previews</td>
-                    <td>✅ W projekcie</td>
-                    <td>Brak</td>
-                    <td>Free/$19/mies</td>
-                    <td>Front-end, Node.js</td>
-                </tr>
-
-                <!-- StackBlitz -->
-                <tr>
-                    <td>
-                        <div class="tool-info">
-                            <strong><a href="https://stackblitz.com" target="_blank">StackBlitz</a></strong><br>
-                            <small>WebContainers</small>
-                        </div>
-                    </td>
-                    <td><span class="badge">Web</span></td>
-                    <td>✅ Mysz/klawiatura sync</td>
-                    <td>✅ WebContainers</td>
-                    <td>✅ Pełny Node</td>
-                    <td>Brak</td>
-                    <td>Free/$20/mies</td>
-                    <td>Rust/Go/Node</td>
-                </tr>
-
-                <!-- Gitpod -->
-                <tr>
-                    <td>
-                        <div class="tool-info">
-                            <strong><a href="https://gitpod.io" target="_blank">Gitpod</a></strong><br>
-                            <small>VS Code w chmurze</small>
-                        </div>
-                    </td>
-                    <td><span class="badge">Cloud</span></td>
-                    <td>✅ VS Code share</td>
-                    <td>✅ Docker/Git</td>
-                    <td>✅ Pełny workspace</td>
-                    <td>Brak</td>
-                    <td>Free/$50/mies</td>
-                    <td>Repo-based development</td>
-                </tr>
-
-                <!-- CodePen -->
-                <tr>
-                    <td>
-                        <div class="tool-info">
-                            <strong><a href="https://codepen.io" target="_blank">CodePen</a></strong><br>
-                            <small>Front-end playground</small>
-                        </div>
-                    </td>
-                    <td><span class="badge">Web</span></td>
-                    <td>✅ Multi-user</td>
-                    <td>❌ Brak</td>
-                    <td>❌ Ograniczony</td>
-                    <td>Brak</td>
-                    <td>Free/$10/mies</td>
-                    <td>HTML/CSS/JS prototypy</td>
-                </tr>
+<?php endforeach; ?>
             </tbody>
         </table>
     </div>
 
     <!-- Feature Comparison -->
     <div class="feature-comparison fade-in">
-        <h3>Szczegółowe Porównanie Funkcji</h3>
+        <h3><?= __('comp_detail_title') ?></h3>
         <div class="comparison-grid">
             <div class="comparison-card">
-                <h4>🎯 Mentoring i Edukacja</h4>
+                <h4>🎯 <?= Language::getCurrent() === 'pl' ? 'Mentoring i Edukacja' : 'Mentoring & Education' ?></h4>
                 <div class="feature-list">
                     <div class="feature-item">
                         <strong>CodeReview.pl:</strong>
-                        <span class="success">✅ Specjalistyczna platforma mentoringowa</span>
+                        <span class="success">✅ <?= Language::getCurrent() === 'pl' ? 'Specjalistyczna platforma mentoringowa' : 'Specialized mentoring platform' ?></span>
                     </div>
                     <div class="feature-item">
                         <strong>Inne:</strong>
-                        <span class="warning">⚠️ Ogólne narzędzia do współpracy</span>
+                        <span class="warning">⚠️ <?= Language::getCurrent() === 'pl' ? 'Ogólne narzędzia do współpracy' : 'General collaboration tools' ?></span>
                     </div>
                 </div>
             </div>
 
             <div class="comparison-card">
-                <h4>🐳 Docker i Root Access</h4>
+                <h4>🐳 <?= Language::getCurrent() === 'pl' ? 'Docker i Dostęp Root' : 'Docker & Root Access' ?></h4>
                 <div class="feature-list">
                     <div class="feature-item">
                         <strong>CodeReview.pl:</strong>
-                        <span class="success">✅ Pełny Docker + root</span>
+                        <span class="success">✅ <?= Language::getCurrent() === 'pl' ? 'Pełny Docker + root' : 'Full Docker + root' ?></span>
                     </div>
                     <div class="feature-item">
                         <strong>Inne:</strong>
-                        <span class="error">❌ Ograniczony lub brak dostępu</span>
+                        <span class="error">❌ <?= Language::getCurrent() === 'pl' ? 'Ograniczony lub brak dostępu' : 'Limited or no access' ?></span>
                     </div>
                 </div>
             </div>
 
             <div class="comparison-card">
-                <h4>💰 Model Cenowy</h4>
+                <h4>💰 <?= Language::getCurrent() === 'pl' ? 'Model Cenowy' : 'Pricing Model' ?></h4>
                 <div class="feature-list">
                     <div class="feature-item">
                         <strong>CodeReview.pl:</strong>
-                        <span class="success">✅ Przystępne PLN, rabaty EDU</span>
+                        <span class="success">✅ <?= Language::getCurrent() === 'pl' ? 'Przystępne PLN, rabaty EDU' : 'Affordable PLN, EDU discounts' ?></span>
                     </div>
                     <div class="feature-item">
                         <strong>Inne:</strong>
-                        <span class="warning">⚠️ USD, często droższe</span>
+                        <span class="warning">⚠️ <?= Language::getCurrent() === 'pl' ? 'USD, często droższe' : 'USD, often more expensive' ?></span>
                     </div>
                 </div>
             </div>
 
             <div class="comparison-card">
-                <h4>🌐 Język i Lokalizacja</h4>
+                <h4>🌐 <?= Language::getCurrent() === 'pl' ? 'Język i Lokalizacja' : 'Language & Localization' ?></h4>
                 <div class="feature-list">
                     <div class="feature-item">
                         <strong>CodeReview.pl:</strong>
-                        <span class="success">✅ Polska platforma, PL/EN</span>
+                        <span class="success">✅ <?= Language::getCurrent() === 'pl' ? 'Polska platforma, PL/EN' : 'Polish platform, PL/EN' ?></span>
                     </div>
                     <div class="feature-item">
                         <strong>Inne:</strong>
-                        <span class="warning">⚠️ Angielskie głównie</span>
+                        <span class="warning">⚠️ <?= Language::getCurrent() === 'pl' ? 'Głównie po angielsku' : 'Mainly English' ?></span>
                     </div>
                 </div>
             </div>
@@ -225,39 +241,26 @@ Logger::info('Comparison page viewed', [
 
     <!-- Use Cases -->
     <div class="use-cases fade-in">
-        <h3>Dla Kogo Jest CodeReview.pl?</h3>
+        <h3><?= __('comp_for_whom') ?></h3>
         <div class="use-cases-grid">
+            <?php foreach (array_slice(__('usecases'), 0, 4) as $u): ?>
             <div class="use-case-card">
-                <div class="use-case-icon">🎓</div>
-                <h4>Bootcampy i Kursy</h4>
-                <p>Monitorowanie kilkunastu studentów, przełączanie między terminalami, system zadań.</p>
+                <div class="use-case-icon"><?= $u[0] ?></div>
+                <h4><?= $u[1] ?></h4>
+                <p><?= $u[2] ?></p>
             </div>
-            <div class="use-case-card">
-                <div class="use-case-icon">🏢</div>
-                <h4>Onboarding Techniczny</h4>
-                <p>Gotowe Docker workspace'y dla nowych pracowników, szybkie wdrożenie.</p>
-            </div>
-            <div class="use-case-card">
-                <div class="use-case-icon">🎤</div>
-                <h4>Rekrutacja Zdalna</h4>
-                <p>Live coding, podgląd toku myślenia kandydata, real-time feedback.</p>
-            </div>
-            <div class="use-case-card">
-                <div class="use-case-icon">💻</div>
-                <h4>Pair Programming</h4>
-                <p>Wspólne kodowanie bez udostępniania pulpitu, pełna kontrola.</p>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 
     <!-- CTA -->
     <div class="cta-section fade-in">
         <div class="cta-box">
-            <h2>Wybierz <span class="gradient-text">Najlepsze Narzędzie</span></h2>
-            <p>CodeReview.pl to specjalistyczna platforma stworzona dla polskiego rynku edukacyjnego.</p>
+            <h2><?= __('comp_choose_best') ?></h2>
+            <p><?= __('comp_cta_desc') ?></p>
             <div class="cta-actions">
-                <a href="<?= SITE_URL ?>" class="btn btn-primary">Wypróbuj CodeReview.pl</a>
-                <a href="/cennik" class="btn btn-ghost">Zobacz Cennik</a>
+                <a href="<?= SITE_URL ?>" class="btn btn-primary"><?= __('btn_download') ?></a>
+                <a href="/cennik" class="btn btn-ghost"><?= __('nav_pricing') ?></a>
             </div>
         </div>
     </div>

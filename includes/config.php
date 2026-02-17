@@ -7,16 +7,6 @@
  * Plesk: /var/www/vhosts/codereview.pl/httpdocs/
  */
 
-// Load logger first
-require_once __DIR__ . '/logger.php';
-
-// Log application start
-Logger::info('Application initialized', [
-    'request_uri' => $_SERVER['REQUEST_URI'] ?? 'unknown',
-    'method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown',
-    'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
-]);
-
 define('SITE_NAME', 'CodeReview.pl');
 define('SITE_BRAND', 'coboarding.com');
 define('SITE_DESC', 'Platforma do zdalnego mentoringu programistów');
@@ -47,14 +37,14 @@ define('BASE_PATH', rtrim(dirname(__DIR__), '/'));
 // Navigation
 function get_nav_items(): array {
     return [
-        ['url' => '/',            'label' => 'Strona główna'],
-        ['url' => '/#how-it-works', 'label' => 'Jak to działa'],
-        ['url' => '/porownanie',  'label' => 'Porównanie'],
-        ['url' => '/marketplace', 'label' => 'Marketplace'],
-        ['url' => '/cennik',      'label' => 'Cennik'],
-        ['url' => '/dokumentacja','label' => 'Docs'],
-        ['url' => '/api',         'label' => 'API'],
-        ['url' => '/kontakt',     'label' => 'Kontakt'],
+        ['url' => '/',            'label' => __('nav_home')],
+        ['url' => '/#how-it-works', 'label' => __('nav_how_it_works')],
+        ['url' => '/porownanie',  'label' => __('nav_comparison')],
+        ['url' => '/marketplace', 'label' => __('nav_marketplace')],
+        ['url' => '/cennik',      'label' => __('nav_pricing')],
+        ['url' => '/dokumentacja','label' => __('nav_docs')],
+        ['url' => '/api',         'label' => __('nav_api')],
+        ['url' => '/kontakt',     'label' => __('nav_contact')],
     ];
 }
 

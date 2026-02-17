@@ -1,7 +1,5 @@
 <?php
-if (!defined('SITE_NAME')) {
-    require_once __DIR__ . '/config.php';
-}
+require_once __DIR__ . '/bootstrap.php';
 
 // Log page access
 Logger::access('Page view', [
@@ -46,6 +44,11 @@ Logger::access('Page view', [
             <?php endforeach; ?>
         </ul>
         <div class="nav-cta">
+            <div class="lang-switcher" style="display:flex;gap:8px;margin-right:12px;font-size:.8rem;font-weight:600;font-family:var(--font-mono);">
+                <?php foreach (Language::getLangs() as $l): ?>
+                <a href="?lang=<?= $l ?>" style="text-decoration:none;color:<?= Language::getCurrent() === $l ? 'var(--accent)' : 'var(--text-muted)' ?>;padding:4px;"><?= strtoupper($l) ?></a>
+                <?php endforeach; ?>
+            </div>
             <a href="<?= SITE_WEBVM ?>" class="btn btn-ghost btn-sm">WebVM</a>
             <a href="<?= SITE_URL ?>" class="btn btn-primary btn-sm">Pobierz ↓</a>
         </div>

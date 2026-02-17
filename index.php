@@ -20,18 +20,17 @@ require_once __DIR__ . '/includes/header.php';
                     Open Source · Apache 2.0
                 </div>
             <h1 style="font-size:clamp(2.8rem,6vw,4.5rem);font-weight:900;line-height:1.05;letter-spacing:-.03em;margin-bottom:24px;animation:fadeInUp .6s ease-out .1s both;">
-                Mentoring<br>programistów<br>
-                <span class="gradient-text">na żywo</span>
+                <?= __('hero_title') ?>
             </h1>
             <p style="font-size:1.2rem;color:var(--text-dim);line-height:1.7;max-width:580px;margin-bottom:40px;animation:fadeInUp .6s ease-out .2s both;">
-                Sesje live z terminalem, chatem głosowym, Docker workspace'ami i VS Code w przeglądarce. Platforma + marketplace korepetycji programistycznych.
+                <?= __('hero_desc') ?>
             </p>
             <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px;animation:fadeInUp .6s ease-out .3s both;">
                 <a href="<?= SITE_URL ?>" class="btn btn-primary">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Pobierz aplikację
+                    <?= __('btn_download') ?>
                 </a>
-                <a href="<?= SITE_WEBVM ?>" class="btn btn-ghost">Wypróbuj w przeglądarce →</a>
+                <a href="<?= SITE_WEBVM ?>" class="btn btn-ghost"><?= __('btn_try_browser') ?></a>
             </div>
             <div style="display:flex;gap:32px;animation:fadeInUp .6s ease-out .4s both;font-family:var(--font-mono);font-size:.85rem;">
                 <a href="<?= SITE_GITHUB ?>" style="display:flex;align-items:center;gap:8px;color:var(--text-muted);text-decoration:none;">
@@ -70,24 +69,12 @@ require_once __DIR__ . '/includes/header.php';
 <section id="features">
     <div class="container">
         <div class="section-header fade-in">
-            <div class="section-label">// Funkcje</div>
-            <h2 class="section-title">Wszystko do mentoringu</h2>
-            <p class="section-desc">Terminal, chat, Docker, VS Code, slajdy — w jednym narzędziu.</p>
+            <div class="section-label"><?= __('feature_label') ?></div>
+            <h2 class="section-title"><?= __('feature_title') ?></h2>
+            <p class="section-desc"><?= __('feature_desc') ?></p>
         </div>
         <div class="features-grid">
-            <?php
-            $features = [
-                ['📺','Live Streaming','Podgląd okna studenta w real-time z konfigurowalnym FPS (1–10 kl/s).'],
-                ['⌨️','Remote Terminal','Wiele zakładek — mentor pisze komendy na terminalu studenta.'],
-                ['💬','Chat + Voice + AI','Voice messages, Speech-to-Text i AI sugestie kodowania.'],
-                ['🐳','Docker Workspace','Pełny Linux z GUI Ubuntu (noVNC). Izolowane środowiska dev.'],
-                ['📝','VS Code w przeglądarce','Instancje edytora VS Code w Docker — pełne IDE.'],
-                ['📊','Slajdy','Synchronizacja slajdów (PDF/URL) z uczniami.'],
-                ['🎯','System zadań','YAML import, śledzenie postępów, gamifikacja.'],
-                ['👥','Multi-student','Lista studentów z miniaturami, multi-select messaging.'],
-                ['🌍','Wielojęzyczny','PL, EN, DE, FR, ES, UA. Motywy Dark/Light/Warm.'],
-            ];
-            foreach ($features as $f): ?>
+            <?php foreach (__('features') as $f): ?>
             <div class="feature-card fade-in">
                 <div class="feature-icon"><?= $f[0] ?></div>
                 <h3><?= $f[1] ?></h3>
@@ -102,22 +89,11 @@ require_once __DIR__ . '/includes/header.php';
 <section id="usecases" style="background:linear-gradient(180deg,transparent,rgba(108,99,255,.02),transparent);">
     <div class="container">
         <div class="section-header fade-in">
-            <div class="section-label">// Zastosowania</div>
-            <h2 class="section-title">Dla kogo jest CodeReview?</h2>
+            <div class="section-label"><?= __('usecase_label') ?></div>
+            <h2 class="section-title"><?= __('usecase_title') ?></h2>
         </div>
         <div class="usecases-grid">
-            <?php
-            $usecases = [
-                ['🎓','Bootcampy i kursy','Monitoruj kilkunastu studentów, przełączaj terminale.'],
-                ['🏢','Onboarding techniczny','Gotowe Docker workspace\'y dla nowych pracowników.'],
-                ['🎤','Rekrutacja zdalna','Live coding — podgląd toku myślenia kandydata.'],
-                ['💻','Pair Programming','Wspólne kodowanie bez udostępniania pulpitu.'],
-                ['🔄','Reverse Mentoring','Juniorzy uczą seniorów Docker/K8s live.'],
-                ['🚀','Startup Pitch','Slajdy + live coding prototypu z feedbackiem.'],
-                ['🏆','Hackathon','Multi-room Hub, shared VS Code sync.'],
-                ['🎨','Non-Tech','GUI tools + voice chat — UX/data analysis.'],
-            ];
-            foreach ($usecases as $u): ?>
+            <?php foreach (__('usecases') as $u): ?>
             <div class="usecase-card fade-in">
                 <div class="usecase-emoji"><?= $u[0] ?></div>
                 <div><h3><?= $u[1] ?></h3><p><?= $u[2] ?></p></div>
@@ -131,47 +107,25 @@ require_once __DIR__ . '/includes/header.php';
 <section id="how-it-works">
     <div class="container">
         <div class="section-header fade-in">
-            <div class="section-label">// Jak to działa</div>
-            <h2 class="section-title">3 kroki do rozpoczęcia</h2>
-            <p class="section-desc">Proste wdrożenie mentoringu na żywo w kilka minut.</p>
+            <div class="section-label"><?= __('how_it_works_label') ?></div>
+            <h2 class="section-title"><?= __('how_it_works_title') ?></h2>
+            <p class="section-desc"><?= __('how_it_works_desc') ?></p>
         </div>
         
         <div class="how-steps fade-in">
-            <!-- Step 1 -->
+            <?php foreach (__('how_steps') as $i => $step): ?>
+            <!-- Step <?= $i + 1 ?> -->
             <div class="how-step">
                 <div class="how-step-content">
-                    <div class="how-step-number">1</div>
-                    <h3>Wybierz typ sesji</h3>
-                    <p>Mentor → Student, Pair Programming lub grupowy bootcamp. Skonfiguruj role i uprawnienia.</p>
+                    <div class="how-step-number"><?= $i + 1 ?></div>
+                    <h3><?= $step['title'] ?></h3>
+                    <p><?= $step['desc'] ?></p>
                 </div>
                 <div class="how-step-image">
-                    <img src="/assets/img/1-select-type.png" alt="Wybór typu sesji mentoringowej" loading="lazy">
+                    <img src="/assets/img/<?= $i + 1 ?>-<?= str_replace(' ', '-', strtolower($step['title'])) ?>.png" alt="<?= $step['title'] ?>" onerror="this.src='/assets/img/placeholder.png'" loading="lazy">
                 </div>
             </div>
-            
-            <!-- Step 2 -->
-            <div class="how-step">
-                <div class="how-step-content">
-                    <div class="how-step-number">2</div>
-                    <h3>Nawiąż połączenie</h3>
-                    <p>Pobierz aplikację lub użyj WebVM. Udostępnij link studentowi — połączenie szyfrowane.</p>
-                </div>
-                <div class="how-step-image">
-                    <img src="/assets/img/2-setup-connection.png" alt="Konfiguracja połączenia mentoringowego" loading="lazy">
-                </div>
-            </div>
-            
-            <!-- Step 3 -->
-            <div class="how-step">
-                <div class="how-step-content">
-                    <div class="how-step-number">3</div>
-                    <h3>Zacznij mentoring</h3>
-                    <p>Terminal, VS Code, Docker, chat głosowy. Wszystko w jednym oknie z podglądem na żywo.</p>
-                </div>
-                <div class="how-step-image">
-                    <img src="/assets/img/3-docker-terminal.png" alt="Terminal i Docker workspace w akcji" loading="lazy">
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
@@ -180,12 +134,12 @@ require_once __DIR__ . '/includes/header.php';
 <section class="cta-section">
     <div class="container">
         <div class="cta-box fade-in">
-            <h2>Gotowy na <span class="gradient-text">lepszy mentoring?</span></h2>
-            <p>Pobierz aplikację, wypróbuj w przeglądarce lub uruchom z kodu.</p>
+            <h2><?= __('cta_title') ?></h2>
+            <p><?= __('cta_desc') ?></p>
             <div class="cta-actions">
-                <a href="<?= SITE_URL ?>" class="btn btn-primary">Pobierz CodeReview.pl</a>
-                <a href="<?= SITE_WEBVM ?>" class="btn btn-ghost">WebVM w przeglądarce</a>
-                <a href="/cennik" class="btn btn-ghost">Cennik →</a>
+                <a href="<?= SITE_URL ?>" class="btn btn-primary"><?= __('btn_download') ?></a>
+                <a href="<?= SITE_WEBVM ?>" class="btn btn-ghost"><?= __('btn_try_browser') ?></a>
+                <a href="/cennik" class="btn btn-ghost"><?= __('nav_pricing') ?> →</a>
             </div>
         </div>
     </div>

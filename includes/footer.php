@@ -32,7 +32,7 @@
         </div>
         <div class="footer-bottom">
             <span>© <?= date('Y') ?> <?= SITE_NAME ?> / <?= SITE_BRAND ?> — <?= SITE_AUTHOR ?>. Apache License 2.0</span>
-            <span style="font-family: var(--font-mono); font-size: 0.75rem;">v1.0 · PHP <?= PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ?> · made in Poland 🇵🇱</span>
+            <span style="font-family: var(--font-mono); font-size: 0.75rem;">v<?= is_file(BASE_PATH . '/VERSION') ? trim(file_get_contents(BASE_PATH . '/VERSION')) : '1.0.5' ?> · PHP <?= PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ?> · made in Poland 🇵🇱</span>
         </div>
     </div>
 </footer>

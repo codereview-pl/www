@@ -39,6 +39,10 @@ git:
       lib/*.py: core
       app/*.py: app
       api/*.py: api
+      admin/*: admin
+      logs/*: logs
+      includes/*: core
+      pages/*: pages
       docs/*: docs
       tests/*: test
       test/*: test

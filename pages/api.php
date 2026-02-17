@@ -1,7 +1,13 @@
 <?php
-$page_title = 'API Reference';
-$page_desc  = 'Dokumentacja API — Stripe Connect, GitHub OAuth, Hub WebSocket.';
+$page_title = __('nav_api');
+$page_desc  = __('api_desc');
 require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../includes/rate_limiter.php';
+
+// Rate limiting for API page
+if (RateLimiter::isLimited('api_page', 30)) {
+    Logger::warning('API page rate limit exceeded', ['ip' => $_SERVER['REMOTE_ADDR']]);
+}
 
 // Log API documentation access
 Logger::info('API documentation viewed', [
@@ -10,9 +16,9 @@ Logger::info('API documentation viewed', [
 ]);
 ?>
 <section class="page-hero"><div class="hero-glow"></div><div class="container">
-    <div class="breadcrumbs"><a href="/">Start</a><span class="sep">/</span><span class="current">API</span></div>
-    <h1>API<br><span class="gradient-text">Reference</span></h1>
-    <p>Stripe Connect, GitHub OAuth, Hub WebSocket i webhook verification.</p>
+    <div class="breadcrumbs"><a href="/"><?= __('nav_home') ?></a><span class="sep">/</span><span class="current"><?= __('nav_api') ?></span></div>
+    <h1><?= __('api_title') ?></h1>
+    <p><?= __('api_desc') ?></p>
 </div></section>
 <section><div class="container">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:64px;" class="fade-in">
@@ -23,7 +29,7 @@ Logger::info('API documentation viewed', [
         <?php endforeach; ?>
     </div>
     <div class="prose">
-        <h2>Tech Stack</h2>
+        <h2><?= __('api_tech_stack') ?></h2>
 <pre><code>Backend:    PHP 8.3 + Laravel 11
 Database:   MySQL 8 / PostgreSQL 16
 Frontend:   HTMX + Alpine.js + Tailwind
@@ -76,18 +82,18 @@ const socket = io('wss://hub.codereview.pl:3777', {
 socket.on('student-joined', (data) => { /* ... */ });
 socket.on('terminal-data', (data) => { /* ... */ });
 socket.emit('terminal-input', { target: 'student-anna', data: 'npm test\n' });</code></pre>
-        <h3>Events</h3>
+        <h3><?= __('api_events') ?></h3>
     </div>
     <table class="data-table fade-in" style="margin-top:24px;">
-        <thead><tr><th>Event</th><th>Kierunek</th><th>Opis</th></tr></thead>
+        <thead><tr><th>Event</th><th><?= Language::getCurrent() === 'pl' ? 'Kierunek' : 'Direction' ?></th><th><?= Language::getCurrent() === 'pl' ? 'Opis' : 'Description' ?></th></tr></thead>
         <tbody>
-            <tr><td style="font-family:var(--font-mono);color:var(--accent);">join-room</td><td>client → hub</td><td style="color:var(--text-dim);">Dołącz do sesji</td></tr>
-            <tr><td style="font-family:var(--font-mono);color:var(--accent);">student-joined</td><td>hub → mentor</td><td style="color:var(--text-dim);">Student dołączył</td></tr>
-            <tr><td style="font-family:var(--font-mono);color:var(--accent);">terminal-data</td><td>student → mentor</td><td style="color:var(--text-dim);">Output terminala</td></tr>
-            <tr><td style="font-family:var(--font-mono);color:var(--accent);">terminal-input</td><td>mentor → student</td><td style="color:var(--text-dim);">Komenda na terminal</td></tr>
-            <tr><td style="font-family:var(--font-mono);color:var(--accent);">screen-frame</td><td>student → mentor</td><td style="color:var(--text-dim);">Screenshot (base64)</td></tr>
-            <tr><td style="font-family:var(--font-mono);color:var(--accent);">chat-message</td><td>bidirectional</td><td style="color:var(--text-dim);">Wiadomość</td></tr>
-            <tr><td style="font-family:var(--font-mono);color:var(--accent);">slide-sync</td><td>mentor → all</td><td style="color:var(--text-dim);">Sync slajdów</td></tr>
+            <tr><td style="font-family:var(--font-mono);color:var(--accent);">join-room</td><td>client → hub</td><td style="color:var(--text-dim);"><?= Language::getCurrent() === 'pl' ? 'Dołącz do sesji' : 'Join session' ?></td></tr>
+            <tr><td style="font-family:var(--font-mono);color:var(--accent);">student-joined</td><td>hub → mentor</td><td style="color:var(--text-dim);"><?= Language::getCurrent() === 'pl' ? 'Student dołączył' : 'Student joined' ?></td></tr>
+            <tr><td style="font-family:var(--font-mono);color:var(--accent);">terminal-data</td><td>student → mentor</td><td style="color:var(--text-dim);"><?= Language::getCurrent() === 'pl' ? 'Output terminala' : 'Terminal output' ?></td></tr>
+            <tr><td style="font-family:var(--font-mono);color:var(--accent);">terminal-input</td><td>mentor → student</td><td style="color:var(--text-dim);"><?= Language::getCurrent() === 'pl' ? 'Komenda na terminal' : 'Terminal command' ?></td></tr>
+            <tr><td style="font-family:var(--font-mono);color:var(--accent);">screen-frame</td><td>student → mentor</td><td style="color:var(--text-dim);"><?= Language::getCurrent() === 'pl' ? 'Screenshot (base64)' : 'Screenshot (base64)' ?></td></tr>
+            <tr><td style="font-family:var(--font-mono);color:var(--accent);">chat-message</td><td>bidirectional</td><td style="color:var(--text-dim);"><?= Language::getCurrent() === 'pl' ? 'Wiadomość' : 'Message' ?></td></tr>
+            <tr><td style="font-family:var(--font-mono);color:var(--accent);">slide-sync</td><td>mentor → all</td><td style="color:var(--text-dim);"><?= Language::getCurrent() === 'pl' ? 'Sync slajdów' : 'Slides sync' ?></td></tr>
         </tbody>
     </table>
 </div></section>

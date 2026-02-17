@@ -74,6 +74,18 @@ npm run package:all     # Wszystkie</code></pre>
 make dev           make stop          make hub
 make webvm         make app           make test
 make package-all   make www-release   make clean</code></pre>
+
+        <h2 id="sys-admin">🛠️ System & Monitoring</h2>
+        <h3>Logowanie (Logger)</h3>
+        <p>Aplikacja posiada centralny system logowania w <code>includes/logger.php</code>. Logi są dzielone na <code>app.log</code>, <code>error.log</code> oraz <code>access.log</code>.</p>
+        <pre><code>Logger::info('User action', ['id' => 123]);
+Logger::error('DB Error', ['msg' => $e->getMessage()]);</code></pre>
+
+        <h3>Panel Admina</h3>
+        <p>Dostępny pod adresem <code>/admin/</code>. Pozwala na podgląd logów live, statystyk systemu oraz inicjalizację bazy danych. Dostęp chroniony przez <code>.htaccess</code>.</p>
+
+        <h3>Rate Limiting</h3>
+        <p>Wbudowana klasa <code>RateLimiter</code> pozwala na ograniczanie częstotliwości akcji (np. wysyłanie formularzy) per IP/Sesja.</p>
     </div>
 </div></section>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

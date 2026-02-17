@@ -62,9 +62,16 @@ make up-mysql    # Uruchom z profilem MySQL
 # Admin Panel: http://localhost:8080/admin/
 ```
 
-### Logi i Monitoring
+### Administracja
 
-Aplikacja posiada wbudowany system logowania w `includes/logger.php`.
+Aplikacja posiada chroniony panel administratora w `/admin/`.
+
+```bash
+# Tworzenie użytkownika panelu admina
+php admin/create_user.php admin moje_haslo
+```
+
+Dostęp do `/admin/` oraz `/logs/` jest chroniony przez `.htaccess`. Hasła są przechowywane w `admin/.htpasswd`.
 
 ```bash
 # Podgląd logów (CLI)
