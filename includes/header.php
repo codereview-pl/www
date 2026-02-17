@@ -2,6 +2,13 @@
 if (!defined('SITE_NAME')) {
     require_once __DIR__ . '/config.php';
 }
+
+// Log page access
+Logger::access('Page view', [
+    'page_title' => $page_title ?? 'home',
+    'referrer' => $_SERVER['HTTP_REFERER'] ?? 'direct',
+    'query_params' => $_GET ?? []
+]);
 ?>
 <!DOCTYPE html>
 <html lang="pl">

@@ -1,0 +1,12 @@
+# Basic authentication for admin area
+AuthType Basic
+AuthName "CodeReview.pl Admin"
+AuthUserFile /home/tom/github/codereview-pl/www/admin/.htpasswd
+Require valid-user
+
+# Or use IP restriction (uncomment and modify as needed)
+# Require ip 127.0.0.1 ::1
+# Require ip 192.168.1.0/24
+
+# Prevent directory listing
+Options -Indexes

@@ -1,3 +1,28 @@
+## [1.0.4] - 2026-02-17
+
+### Summary
+
+fix(docs): deep code analysis engine with 4 supporting modules
+
+### Docs
+
+- docs: update README
+
+### Other
+
+- update .gitignore
+- update admin/.htaccess
+- update admin/index.php
+- update admin/view_logs.php
+- update assets/css/style.css
+- update database/init.php
+- update database/init_db.php
+- update docker/logs/access_log
+- update docker/logs/error_log
+- update includes/config.php
+- ... and 9 more
+
+
 ## [1.0.3] - 2026-02-17
 
 ### Summary

@@ -7,6 +7,16 @@
  * Plesk: /var/www/vhosts/codereview.pl/httpdocs/
  */
 
+// Load logger first
+require_once __DIR__ . '/logger.php';
+
+// Log application start
+Logger::info('Application initialized', [
+    'request_uri' => $_SERVER['REQUEST_URI'] ?? 'unknown',
+    'method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown',
+    'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+]);
+
 define('SITE_NAME', 'CodeReview.pl');
 define('SITE_BRAND', 'coboarding.com');
 define('SITE_DESC', 'Platforma do zdalnego mentoringu programistów');
@@ -64,13 +74,30 @@ function get_db(): ?PDO {
 
     try {
         $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4', DB_HOST, DB_PORT, DB_NAME);
+        Logger::db('Attempting database connection', [
+            'host' => DB_HOST,
+            'port' => DB_PORT,
+            'database' => DB_NAME,
+            'user' => DB_USER
+        ]);
+        
         $pdo = new PDO($dsn, DB_USER, DB_PASS, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_TIMEOUT => 5,
         ]);
+        
+        Logger::db('Database connection successful');
         return $pdo;
+        
     } catch (PDOException $e) {
-        error_log('DB connection failed: ' . $e->getMessage());
+        Logger::error('Database connection failed', [
+            'error' => $e->getMessage(),
+            'code' => $e->getCode(),
+            'host' => DB_HOST,
+            'port' => DB_PORT,
+            'database' => DB_NAME
+        ]);
         return null;
     }
 }

@@ -2,6 +2,12 @@
 $page_title = 'API Reference';
 $page_desc  = 'Dokumentacja API — Stripe Connect, GitHub OAuth, Hub WebSocket.';
 require_once __DIR__ . '/../includes/header.php';
+
+// Log API documentation access
+Logger::info('API documentation viewed', [
+    'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+    'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown'
+]);
 ?>
 <section class="page-hero"><div class="hero-glow"></div><div class="container">
     <div class="breadcrumbs"><a href="/">Start</a><span class="sep">/</span><span class="current">API</span></div>

@@ -13,11 +13,12 @@ require_once __DIR__ . '/includes/header.php';
     <div style="position:absolute;width:800px;height:800px;border-radius:50%;filter:blur(160px);opacity:.12;pointer-events:none;top:-200px;right:-200px;background:var(--accent);"></div>
     <div style="position:absolute;width:800px;height:800px;border-radius:50%;filter:blur(160px);opacity:.12;pointer-events:none;bottom:-300px;left:-300px;background:var(--secondary);"></div>
     <div class="container" style="position:relative;">
-        <div style="max-width:720px;">
-            <div class="badge badge-accent" style="margin-bottom:28px;animation:fadeInUp .6s ease-out;">
-                <span style="width:8px;height:8px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;display:inline-block;"></span>
-                Open Source · Apache 2.0
-            </div>
+        <div class="hero-wrapper">
+            <div class="hero-content">
+                <div class="badge badge-accent" style="margin-bottom:28px;animation:fadeInUp .6s ease-out;">
+                    <span style="width:8px;height:8px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;display:inline-block;"></span>
+                    Open Source · Apache 2.0
+                </div>
             <h1 style="font-size:clamp(2.8rem,6vw,4.5rem);font-weight:900;line-height:1.05;letter-spacing:-.03em;margin-bottom:24px;animation:fadeInUp .6s ease-out .1s both;">
                 Mentoring<br>programistów<br>
                 <span class="gradient-text">na żywo</span>
@@ -43,7 +44,7 @@ require_once __DIR__ . '/includes/header.php';
         </div>
 
         <!-- Terminal preview -->
-        <div class="hero-terminal" style="position:absolute;right:-40px;top:50%;transform:translateY(-50%);width:520px;z-index:2;animation:fadeInUp .8s ease-out .5s both;">
+        <div class="hero-terminal" style="animation:fadeInUp .8s ease-out .5s both;">
             <div class="terminal-window">
                 <div class="terminal-bar">
                     <span class="terminal-dot r"></span><span class="terminal-dot y"></span><span class="terminal-dot g"></span>

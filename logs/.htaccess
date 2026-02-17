@@ -1,0 +1,14 @@
+# Deny all access to log files
+Order deny,allow
+Deny from all
+
+# Prevent directory listing
+Options -Indexes
+
+# Deny access to all files in this directory
+<Files "*">
+    Require all denied
+</Files>
+
+# Allow only local access (optional - uncomment if needed)
+# Require ip 127.0.0.1 ::1
