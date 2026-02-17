@@ -155,6 +155,45 @@ urls: ## Show development URLs
 	@echo "  phpMyAdmin:  http://localhost:8081"
 	@echo "  Database:    localhost:3306"
 
+# Diagnostic
+.PHONY: diagnostic
+diagnostic: ## Check active ports and connection status
+	@echo "=== CodeReview.pl Diagnostic ==="
+	@echo ""
+	@echo "Port   Service          Status"
+	@echo "------ ---------------- --------"
+	@if curl -s -o /dev/null -w "%{http_code}" http://localhost:8080 2>/dev/null | grep -q "200"; then \
+		echo "8080   Web (HTTP)       ✅ ACTIVE"; \
+	else \
+		echo "8080   Web (HTTP)       ❌ INACTIVE"; \
+	fi
+	@if curl -s -o /dev/null -w "%{http_code}" https://localhost:8443 2>/dev/null | grep -q "200"; then \
+		echo "8443   Web (HTTPS)      ✅ ACTIVE"; \
+	else \
+		echo "8443   Web (HTTPS)      ❌ INACTIVE"; \
+	fi
+	@if curl -s -o /dev/null -w "%{http_code}" http://localhost:3306 2>/dev/null | grep -q "200\| refused"; then \
+		echo "3306   MySQL            ⚠️  AVAILABLE (optional)"; \
+	else \
+		echo "3306   MySQL            ❌ INACTIVE (optional)"; \
+	fi
+	@if curl -s -o /dev/null -w "%{http_code}" http://localhost:8081 2>/dev/null | grep -q "200"; then \
+		echo "8081   phpMyAdmin       ✅ ACTIVE"; \
+	else \
+		echo "8081   phpMyAdmin       ❌ INACTIVE (optional)"; \
+	fi
+	@if curl -s -o /dev/null -w "%{http_code}" http://localhost:8025 2>/dev/null | grep -q "200"; then \
+		echo "8025   Mailhog UI       ✅ ACTIVE"; \
+	else \
+		echo "8025   Mailhog UI       ❌ INACTIVE"; \
+	fi
+	@echo ""
+	@echo "Docker containers:"
+	@docker-compose ps --format "table {{.Name}}\t{{.Status}}\t{{.Ports}}" 2>/dev/null || echo "Docker not running"
+	@echo ""
+	@echo "Website response:"
+	@curl -s -o /dev/null -w "HTTP Status: %{http_code}, Time: %{time_total}s\n" http://localhost:8080 2>/dev/null || echo "Not responding"
+
 # Version and info
 .PHONY: version info
 version: ## Show current version

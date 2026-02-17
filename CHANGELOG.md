@@ -1,3 +1,14 @@
+## [1.0.9] - 2026-02-17
+
+### Summary
+
+feat(build): CLI interface with 2 supporting modules
+
+### Other
+
+- build: update Makefile
+
+
 ## [1.0.8] - 2026-02-17
 
 ### Summary
